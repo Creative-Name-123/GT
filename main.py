@@ -62,12 +62,13 @@ def showFieldsOfPlayer(player):
         print(playerNames[player] + "'s fields:")
     if numberOfPlayers > 3 or player == 5:
         field = [0, 0]  # fields are 22 spaces wide with 4 spaces in between
-        print(" ______________________      ______________________ ")
+        print(playerColoursANSI[player]+" ______________________      ______________________ ")
         print("/                      \\    /                      \\")
         print("|          1.          |    |          2.          |")
     else:
         field = [0, 0, 0]
-        print(" ______________________      ______________________      ______________________ ")
+        print(playerColoursANSI[player]+"______________________      ______________________      "
+                                        "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
         print("|          1.          |    |          2.          |    |          3.          |")
     for k in range(numberOfFieldsInUse):
@@ -185,21 +186,21 @@ def showFieldsOfPlayer(player):
 def showHandOfPlayer(player):
     for k in range(len(playerHands[player])):
         if playerHands[player][k] == 6:
-            print(str(k + 1) + ". Garden Bean (6)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Garden Bean (6)")
         elif playerHands[player][k] == 8:
-            print(str(k + 1) + ". Red Bean (8)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Red Bean (8)")
         elif playerHands[player][k] == 10:
-            print(str(k + 1) + ". Black-Eyed Bean (10)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Black-Eyed Bean (10)")
         elif playerHands[player][k] == 12:
-            print(str(k + 1) + ". Soy Bean (12)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Soy Bean (12)")
         elif playerHands[player][k] == 14:
-            print(str(k + 1) + ". Green Bean (14)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Green Bean (14)")
         elif playerHands[player][k] == 16:
-            print(str(k + 1) + ". Stink Bean (16)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Stink Bean (16)")
         elif playerHands[player][k] == 18:
-            print(str(k + 1) + ". Chili Bean (18)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Chili Bean (18)")
         elif playerHands[player][k] == 20:
-            print(str(k + 1) + ". Blue Bean (20)")
+            print(playerColoursANSI[player]+str(k + 1) + ". Blue Bean (20)")
 
 
 def harvestBeans(player, field):
@@ -384,8 +385,11 @@ if numberOfPlayers == 3:
 else:
     numberOfFieldsInUse = 2
 playerHands = [0, 0, 0, 0, 0]
+playerColourNames = ["Red", "Blue", "Green", "Yellow", "Purple"]
+playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
+                                                                                                          "1;40;40m"]
 for i in range(numberOfPlayers):
-    print("What is player " + str(i) + "\'s name?")
+    print("What is player " + str(i+1) + "\'s name? This player will be " + playerColourNames[i])
     playerHands[i] = [deck.pop(0), deck.pop(1), deck.pop(2), deck.pop(3), deck.pop(4)]
     response = input()
     playerNames.append(response)
@@ -395,7 +399,7 @@ startingPlayerName = input()
 startingPlayer = playerNames.index(startingPlayerName)
 playerTurn = startingPlayer
 while True:
-    print("It is now player " + playerNames[playerTurn] + "'s turn")
+    print("It is now " + playerNames[playerTurn] + "'s turn")
     showFieldsOfPlayer(playerTurn)
     showHandOfPlayer(playerTurn)
     print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
