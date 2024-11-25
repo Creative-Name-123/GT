@@ -59,16 +59,16 @@ def showFieldsOfPlayer(player):
         tradingCards[0] = typeOfBeansInFields[5][0]
         tradingCards[1] = typeOfBeansInFields[5][1]
     else:
-        print(playerNames[player] + "'s fields:")
+        print(playerColoursANSI[player] + playerNames[player] + "'s fields:")
     if numberOfPlayers > 3 or player == 5:
         field = [0, 0]  # fields are 22 spaces wide with 4 spaces in between
-        print(playerColoursANSI[player]+" ______________________      ______________________ ")
+        print(" ______________________      ______________________ ")
         print("/                      \\    /                      \\")
         print("|          1.          |    |          2.          |")
     else:
         field = [0, 0, 0]
-        print(playerColoursANSI[player]+"______________________      ______________________      "
-                                        "______________________ ")
+        print(playerColoursANSI[player] + "______________________      ______________________      "
+                                          "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
         print("|          1.          |    |          2.          |    |          3.          |")
     for k in range(numberOfFieldsInUse):
@@ -186,21 +186,21 @@ def showFieldsOfPlayer(player):
 def showHandOfPlayer(player):
     for k in range(len(playerHands[player])):
         if playerHands[player][k] == 6:
-            print(playerColoursANSI[player]+str(k + 1) + ". Garden Bean (6)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Garden Bean (6)")
         elif playerHands[player][k] == 8:
-            print(playerColoursANSI[player]+str(k + 1) + ". Red Bean (8)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Red Bean (8)")
         elif playerHands[player][k] == 10:
-            print(playerColoursANSI[player]+str(k + 1) + ". Black-Eyed Bean (10)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Black-Eyed Bean (10)")
         elif playerHands[player][k] == 12:
-            print(playerColoursANSI[player]+str(k + 1) + ". Soy Bean (12)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Soy Bean (12)")
         elif playerHands[player][k] == 14:
-            print(playerColoursANSI[player]+str(k + 1) + ". Green Bean (14)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Green Bean (14)")
         elif playerHands[player][k] == 16:
-            print(playerColoursANSI[player]+str(k + 1) + ". Stink Bean (16)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Stink Bean (16)")
         elif playerHands[player][k] == 18:
-            print(playerColoursANSI[player]+str(k + 1) + ". Chili Bean (18)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Chili Bean (18)")
         elif playerHands[player][k] == 20:
-            print(playerColoursANSI[player]+str(k + 1) + ". Blue Bean (20)")
+            print(playerColoursANSI[player] + str(k + 1) + ". Blue Bean (20)")
 
 
 def harvestBeans(player, field):
@@ -368,6 +368,9 @@ def harvestBeans(player, field):
 
 
 numberOfTimesDeckHasRunOut = -1
+playerColourNames = ["red", "blue", "green", "yellow", "purple", "white"]
+playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
+                                                                                                          "1;37;40m"]
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
@@ -376,7 +379,7 @@ typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
-print("How many players are there? There must be between 3 and 5 players.")
+print(playerColoursANSI[5] + "How many players are there? There must be between 3 and 5 players.")
 numberOfPlayers = int(input())
 playerNames = []
 lowerCasePlayerNames = []
@@ -385,21 +388,19 @@ if numberOfPlayers == 3:
 else:
     numberOfFieldsInUse = 2
 playerHands = [0, 0, 0, 0, 0]
-playerColourNames = ["Red", "Blue", "Green", "Yellow", "Purple"]
-playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
-                                                                                                          "1;40;40m"]
 for i in range(numberOfPlayers):
-    print("What is player " + str(i+1) + "\'s name? This player will be " + playerColourNames[i])
+    print(
+        playerColoursANSI[i] + "What is player " + str(i + 1) + "\'s name? This player will be " + playerColourNames[i])
     playerHands[i] = [deck.pop(0), deck.pop(1), deck.pop(2), deck.pop(3), deck.pop(4)]
     response = input()
     playerNames.append(response)
     lowerCasePlayerNames.append(response.lower())
-print("Who most recently ate beans?")
+print(playerColoursANSI[5] + "Who most recently ate beans?")
 startingPlayerName = input()
 startingPlayer = playerNames.index(startingPlayerName)
 playerTurn = startingPlayer
 while True:
-    print("It is now " + playerNames[playerTurn] + "'s turn")
+    print(playerColoursANSI[playerTurn] + "It is now " + playerNames[playerTurn] + "'s turn")
     showFieldsOfPlayer(playerTurn)
     showHandOfPlayer(playerTurn)
     print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
@@ -419,11 +420,11 @@ while True:
             numberOfFieldsInUse) + ")?")
         response = int(input())
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                                    response - 1] == playerHands[playerTurn][0]:
+                                                  response - 1] == playerHands[playerTurn][0]:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
-        typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn][0]
-    print("Here are the top two cards from the deck. " + playerNames[
+        typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
+    print(playerColoursANSI[5] + "Here are the top two cards from the deck. " + playerNames[
         playerTurn] + " must decide whether to keep these cards or trade them.")
     numberOfFieldsInUse = 2
     showFieldsOfPlayer(5)
@@ -451,15 +452,15 @@ while True:
     tradingCardsOfOtherPlayer = []
     for i in range(2):  # Trading stage (loop of range(2) because two cards are flipped over)
         if i == 0:
-            print("Would anyone like to trade for the first card?")
+            print(playerColoursANSI[5] + "Would anyone like to trade for the first card?")
         else:
-            print("Would anyone like to trade for the second card?")
+            print(playerColoursANSI[5] + "Would anyone like to trade for the second card?")
         print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter \"no\".")
         print("Otherwise, the non-active players should give offers to " + playerNames[
             playerTurn] + " and they should enter \"yes\"")
         response = input()
         if response.lower() == "no":
-            print("Where would "+playerNames[playerTurn]+" like to plant this card (enter a number between 1 and " +
+            print("Where would " + playerNames[playerTurn] + " like to plant this card (enter a number between 1 and " +
                   str(numberOfFieldsInUse) + ")?")
             showFieldsOfPlayer(playerTurn)
             response = int(input())
@@ -477,11 +478,12 @@ while True:
                 tradingCards[i]] + "?")
             response = int(input())
             if not quantityOfBeansInFields[tradingPlayer][response - 1] == 0 and not typeOfBeansInFields[tradingPlayer][
-                                                                                    response - 1] == tradingCards[i]:
+                                                                                         response - 1] == tradingCards[
+                                                                                         i]:
                 harvestBeans(tradingPlayer, response - 1)
             quantityOfBeansInFields[tradingPlayer][response - 1] += 1
             typeOfBeansInFields[tradingPlayer][response - 1] = tradingCards[i]
-            print("How many cards would " + playerNames[
+            print(playerColoursANSI[5] + "How many cards would " + playerNames[
                 tradingPlayer] + " like to trade for this card? Enter a number between 0 and " + str(
                 len(playerHands[tradingPlayer])))
             print(playerNames[tradingPlayer] + "'s cards:")
@@ -490,31 +492,30 @@ while True:
             for j in range(response):
                 if response != 1:
                     if str(j)[-1] == "0":
-                        print("Enter the placement of the " + str(
+                        print(playerColoursANSI[5] + "Enter the placement of the " + str(
                             j + 1) + "st card you want to trade with. Enter a number between 1 and " + str(
                             len(playerHands[tradingPlayer])))
                     elif str(j)[-1] == "1":
-                        print("Enter the placement of the " + str(
+                        print(playerColoursANSI[5] + "Enter the placement of the " + str(
                             j + 1) + "nd card you want to trade with. Enter a number between 1 and " + str(
                             len(playerHands[tradingPlayer])))
                     elif str(j)[-1] == "2":
-                        print("Enter the placement of the " + str(
+                        print(playerColoursANSI[5] + "Enter the placement of the " + str(
                             j + 1) + "rd card you want to trade with. Enter a number between 1 and " + str(
                             len(playerHands[tradingPlayer])))
                     else:
-                        print("Enter the placement of the " + str(
+                        print(playerColoursANSI[5] + "Enter the placement of the " + str(
                             j + 1) + "th card you want to trade with. Enter a number between 1 and " + str(
                             len(playerHands[tradingPlayer])))
                 else:
-                    print("Enter the placement of the card you want to trade with. Enter a number between 1 and " + str(
-                        len(playerHands[tradingPlayer])))
+                    print(playerColoursANSI[5] + "Enter the placement of the card you want to trade with. Enter a "
+                                                 "number between 1 and " + str(len(playerHands[tradingPlayer])) + ".")
                 response = int(input())
-                tradingCardsOfOtherPlayer.append(playerHands[tradingPlayer][response])
-                playerHands[tradingPlayer][response-1] = 0
-                print(playerNames[tradingPlayer] + "'s cards:")
+                tradingCardsOfOtherPlayer.append(playerHands[tradingPlayer].pop(response - 1))
+                print(playerColoursANSI[5] + playerNames[tradingPlayer] + "'s cards:")
                 showHandOfPlayer(tradingPlayer)
     for i in range(len(tradingCardsOfOtherPlayer)):  # active player now plants the cards they got in trading
-        print("Where would " + playerNames[playerTurn] + " like to plant their new " + cardNames[
+        print(playerColoursANSI[5] + "Where would " + playerNames[playerTurn] + " like to plant their new " + cardNames[
             tradingCardsOfOtherPlayer[i]] + "?")
         showFieldsOfPlayer(playerTurn)
         response = int(input())
@@ -522,14 +523,14 @@ while True:
                                                                                   response - 1] == i:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
-        typeOfBeansInFields[playerTurn][response - 1] = i
-    print(playerNames[playerTurn] + " now picks up three cards to finish their turn")
+        typeOfBeansInFields[playerTurn][response - 1] = tradingCardsOfOtherPlayer[i]
+    print(playerColoursANSI[5] + playerNames[playerTurn] + " now picks up three cards to finish their turn")
     for i in range(3):
         if len(deck) == 0:
             deck = shuffleAndCreateDeck()
         playerHands[playerTurn].append(deck.pop(0))
     showHandOfPlayer(playerTurn)
-    if playerTurn < numberOfPlayers-1:
+    if playerTurn < numberOfPlayers - 1:
         playerTurn += 1
     else:
         playerTurn = 0
