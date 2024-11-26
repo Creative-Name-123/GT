@@ -51,10 +51,24 @@ def showFieldsOfPlayer(player):
     if player == 5:
         global deck
         if len(deck) == 0:
-            deck = shuffleAndCreateDeck()
+            if not numberOfTimesDeckHasRunOut == 2:
+                if numberOfTimesDeckHasRunOut == 0:
+                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                else:
+                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                deck = shuffleAndCreateDeck()
+            else:
+                endTheGame()
         typeOfBeansInFields[5][0] = deck.pop(0)
         if len(deck) == 0:
-            deck = shuffleAndCreateDeck()
+            if not numberOfTimesDeckHasRunOut == 2:
+                if numberOfTimesDeckHasRunOut == 0:
+                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                else:
+                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                deck = shuffleAndCreateDeck()
+            else:
+                endTheGame()
         typeOfBeansInFields[5][1] = deck.pop(0)
         tradingCards[0] = typeOfBeansInFields[5][0]
         tradingCards[1] = typeOfBeansInFields[5][1]
@@ -367,10 +381,44 @@ def harvestBeans(player, field):
     typeOfBeansInFields[player][field] = 0
 
 
+def endTheGame():
+    coinsInOrder = []
+    positionsInReverseOrder = []
+    for k in range(numberOfPlayers):
+        coinsInOrder.append(min(coins))
+        positionsInReverseOrder.append(int(coins.index(min(coins))))
+        coins.remove(min(coins))
+    print("The deck has now run out for the third and final time. The game is now over.")
+    print("Press enter to go through the results")
+    input()
+    if numberOfPlayers == 5:
+        print("In fifth place...")
+        input()
+        print("is " + playerNames[positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+        input()
+    if numberOfPlayers >= 4:
+        print("In fourth place...")
+        input()
+        print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(coinsInOrder[numberOfPlayers-4]) + " coins!")
+        input()
+    print("In third place...")
+    input()
+    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(coinsInOrder[numberOfPlayers-3]) + " coins!")
+    print("In second place...")
+    input()
+    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(coinsInOrder[numberOfPlayers-2]) + " coins!")
+    input()
+    print("That means that " + playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won!")
+    print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(coinsInOrder[numberOfPlayers-2]) + "coins!")
+    input()
+    if "Evan" in playerNames:
+        print("I\'m kidding :)")
+
+
 numberOfTimesDeckHasRunOut = -1
-playerColourNames = ["red", "blue", "green", "yellow", "purple", "white"]
+playerColourNames = ["red", "blue", "green", "yellow", "purple", "white", "black"]
 playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
-                                                                                                          "1;37;40m"]
+                                                                           "1;37;40m", "\033[1;30;47m"]
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
@@ -379,7 +427,8 @@ typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
-print(playerColoursANSI[5] + "How many players are there? There must be between 3 and 5 players.")
+print(playerColoursANSI[5] + "Welcome to Bohnanza!")
+print("How many players are there? There must be between 3 and 5 players.")
 numberOfPlayers = int(input())
 playerNames = []
 lowerCasePlayerNames = []
@@ -395,6 +444,8 @@ for i in range(numberOfPlayers):
     response = input()
     playerNames.append(response)
     lowerCasePlayerNames.append(response.lower())
+    if response == "Evan":
+        coins[i] = 1000
 print(playerColoursANSI[5] + "Who most recently ate beans?")
 startingPlayerName = input()
 startingPlayer = playerNames.index(startingPlayerName)
@@ -520,14 +571,21 @@ while True:
         showFieldsOfPlayer(playerTurn)
         response = int(input())
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                                                  response - 1] == i:
+                                                           response - 1] == tradingCardsOfOtherPlayer[i]:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
         typeOfBeansInFields[playerTurn][response - 1] = tradingCardsOfOtherPlayer[i]
     print(playerColoursANSI[5] + playerNames[playerTurn] + " now picks up three cards to finish their turn")
     for i in range(3):
         if len(deck) == 0:
-            deck = shuffleAndCreateDeck()
+            if not numberOfTimesDeckHasRunOut == 2:
+                if numberOfTimesDeckHasRunOut == 0:
+                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                else:
+                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                deck = shuffleAndCreateDeck()
+            else:
+                endTheGame()
         playerHands[playerTurn].append(deck.pop(0))
     showHandOfPlayer(playerTurn)
     if playerTurn < numberOfPlayers - 1:
