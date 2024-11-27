@@ -399,20 +399,45 @@ def endTheGame():
     if numberOfPlayers >= 4:
         print("In fourth place...")
         input()
-        print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(coinsInOrder[numberOfPlayers-4]) + " coins!")
+        print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(
+            coinsInOrder[numberOfPlayers-4]) + " coins!")
         input()
     print("In third place...")
     input()
-    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(coinsInOrder[numberOfPlayers-3]) + " coins!")
+    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(
+        coinsInOrder[numberOfPlayers-3]) + " coins!")
     print("In second place...")
     input()
-    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(coinsInOrder[numberOfPlayers-2]) + " coins!")
+    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(
+        coinsInOrder[numberOfPlayers-2]) + " coins!")
     input()
     print("That means that " + playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won!")
-    print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(coinsInOrder[numberOfPlayers-2]) + "coins!")
+    print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(
+        coinsInOrder[numberOfPlayers-2]) + "coins!")
     input()
     if "Evan" in playerNames:
         print("I\'m kidding :)")
+        coins[playerNames.index("Evan")] -= 1000
+        coinsInOrder = []
+        positionsInReverseOrder = []
+        for k in range(numberOfPlayers):
+            coinsInOrder.append(min(coins))
+            positionsInReverseOrder.append(int(coins.index(min(coins))))
+            coins.remove(min(coins))
+        input()
+        print("Here are the real results:")
+        if numberOfPlayers >=5:
+            print("5. " + playerNames[positionsInReverseOrder[numberOfPlayers - 5]] + " with " + str(
+                coinsInOrder[numberOfPlayers - 5]) + "coins")
+        if numberOfPlayers >= 4:
+            print("4. " + playerNames[positionsInReverseOrder[numberOfPlayers - 4]] + " with " + str(
+                coinsInOrder[numberOfPlayers - 4]) + "coins")
+        print("3. " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with " + str(
+            coinsInOrder[numberOfPlayers - 3]) + "coins")
+        print("2. " + playerNames[positionsInReverseOrder[numberOfPlayers - 2]] + " with " + str(
+            coinsInOrder[numberOfPlayers - 2]) + "coins")
+        print("1. " + playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " with " + str(
+            coinsInOrder[numberOfPlayers - 1]) + "coins")
 
 
 numberOfTimesDeckHasRunOut = -1
