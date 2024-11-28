@@ -391,7 +391,7 @@ def endTheGame():
         positionsInReverseOrder.append(int(coins.index(min(coins))))
         coins[coins.index(min(coins))] += 9999999999999999999999
     if forcedEnd == 1:
-        print("The game has now been ended.")
+        print(playerColoursANSI[5] + "The game has now been ended.")
     else:
         print("The deck has now run out for the third and final time. The game is now over.")
     print("Press enter to go through the results")
@@ -430,7 +430,7 @@ def endTheGame():
             coins.remove(min(coins))
         input()
         print("Here are the real results:")
-        if numberOfPlayers >=5:
+        if numberOfPlayers >= 5:
             print("5. " + playerNames[positionsInReverseOrder[numberOfPlayers - 5]] + " with " + str(
                 coinsInOrder[numberOfPlayers - 5]) + "coins")
         if numberOfPlayers >= 4:
@@ -447,7 +447,7 @@ def endTheGame():
 
 def checkForHacks(command):
     global forcedEnd
-    if command[0] == "/" or (not command.lower() == "no" and not command.lower() == "yes" and not command.lower() in lowerCasePlayerNames):
+    if command[0] == "/" or (not command.lower() == "no" and not command.lower() == "yes" and not command.lower() in lowerCasePlayerNames) or command == playerNames[playerTurn]:
         global response
         if command == "/help":
             print("type \"/checkStats\" to see some of the game's current stats")
@@ -478,7 +478,7 @@ playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
-coins = [0, 0, 0, 0, 0]
+coins = [10, 20, 30, 40, 50]
 typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
@@ -510,23 +510,7 @@ while True:
     print(playerColoursANSI[playerTurn] + "It is now " + playerNames[playerTurn] + "'s turn")
     showFieldsOfPlayer(playerTurn)
     showHandOfPlayer(playerTurn)
-    print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
-        numberOfFieldsInUse) + ")?")
-    response = input()
-    if not response.isdigit():
-        checkForHacks(response)
-    response = int(response)
-    if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                                              response - 1] == playerHands:
-        harvestBeans(playerTurn, response - 1)
-    quantityOfBeansInFields[playerTurn][response - 1] += 1
-    typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
-    showFieldsOfPlayer(playerTurn)
-    showHandOfPlayer(playerTurn)
-    print("Would you like to plant the next card in your hand (enter \"yes\" or \"no\")?")
-    response = input()
-    checkForHacks(response)
-    if response.lower() == "yes":
+    if len(playerHands[playerTurn]) > 0:
         print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
             numberOfFieldsInUse) + ")?")
         response = input()
@@ -534,10 +518,33 @@ while True:
             checkForHacks(response)
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                  response - 1] == playerHands[playerTurn][0]:
+                                                                              response - 1] == playerHands:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
         typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
+        showFieldsOfPlayer(playerTurn)
+        showHandOfPlayer(playerTurn)
+        if len(playerHands[playerTurn]) > 0:
+            print("Would you like to plant the next card in your hand (enter \"yes\" or \"no\")?")
+            response = input()
+            checkForHacks(response)
+            if response.lower() == "yes":
+                print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
+                    numberOfFieldsInUse) + ")?")
+                response = input()
+                if not response.isdigit():
+                    checkForHacks(response)
+                response = int(response)
+                if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
+                   response - 1] == playerHands[playerTurn][0]:
+                    harvestBeans(playerTurn, response - 1)
+                quantityOfBeansInFields[playerTurn][response - 1] += 1
+                typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
+        else:
+            print("You don't have any beans left in your hand, so you don't have the option of planting a second bean")
+    else:
+        print("You don't have any beans left in your hand, so you can't plant any beans at this time")
+
     print(playerColoursANSI[5] + "Here are the top two cards from the deck. " + playerNames[
         playerTurn] + " must decide whether to keep these cards or trade them.")
     numberOfFieldsInUse = 2
@@ -575,7 +582,7 @@ while True:
         response = input()
         checkForHacks(response)
         if response.lower() == "no":
-            print("Where would " + playerNames[playerTurn] + " like to plant this card (enter a number between 1 and " +
+            print("Where would " + playerNames[playerTurn] + " like to plant this " + cardNames[tradingCards[i]] + " (enter a number between 1 and " +
                   str(numberOfFieldsInUse) + ")?")
             showFieldsOfPlayer(playerTurn)
             response = input()
