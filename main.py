@@ -446,28 +446,35 @@ def endTheGame():
 
 
 def checkForHacks(command):
+    if command.isdigit():
+        if not responseExpected == "int" or command >= responseMax or command <= responseMin:
+            checkForHacksBodyCode(command)
+    elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and command.lower() == "no"):
+        checkForHacksBodyCode(command)
+
+
+def checkForHacksBodyCode(command):
+    global response
     global forcedEnd
-    if command[0] == "/" or (not command.lower() == "no" and not command.lower() == "yes" and not command.lower() in lowerCasePlayerNames) or command == playerNames[playerTurn]:
-        global response
-        if command == "/help":
-            print("type \"/checkStats\" to see some of the game's current stats")
-            print("type \"/endGame\" to end the game")
-        elif command.lower() == "/endgame":
-            forcedEnd = 1
-            endTheGame()
-        elif command.lower() == "/checkstats":
-            print("Starting player: " + playerNames[startingPlayer])
-            print("Coins of players:")
-            print(playerNames[0] + ": " + str(coins[0]))
-            print(playerNames[1] + ": " + str(coins[1]))
-            print(playerNames[2] + ": " + str(coins[2]))
-            if numberOfPlayers >= 4:
-                print(playerNames[3] + ": " + str(coins[3]))
-            if numberOfPlayers >= 5:
-                print(playerNames[4] + ": " + str(coins[4]))
-            print("Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
-        response = input()
-        checkForHacks(response)
+    if command == "/help":
+        print("type \"/checkStats\" to see some of the game's current stats")
+        print("type \"/endGame\" to end the game")
+    elif command.lower() == "/endgame":
+        forcedEnd = 1
+        endTheGame()
+    elif command.lower() == "/checkstats":
+        print("Starting player: " + playerNames[startingPlayer])
+        print("Coins of players:")
+        print(playerNames[0] + ": " + str(coins[0]))
+        print(playerNames[1] + ": " + str(coins[1]))
+        print(playerNames[2] + ": " + str(coins[2]))
+        if numberOfPlayers >= 4:
+            print(playerNames[3] + ": " + str(coins[3]))
+        if numberOfPlayers >= 5:
+            print(playerNames[4] + ": " + str(coins[4]))
+        print("Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
+    response = input()
+    checkForHacks(response)
 
 
 forcedEnd = 0
@@ -483,6 +490,7 @@ typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
+responseCantBe = []
 print(playerColoursANSI[5] + "Welcome to Bohnanza!")
 print("How many players are there? There must be between 3 and 5 players.")
 numberOfPlayers = int(input())
@@ -514,8 +522,10 @@ while True:
         print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
             numberOfFieldsInUse) + ")?")
         response = input()
-        if not response.isdigit():
-            checkForHacks(response)
+        responseExpected = "int"
+        responseMax = numberOfFieldsInUse
+        responseMin = 1
+        checkForHacks(response)
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                                               response - 1] == playerHands:
@@ -527,13 +537,16 @@ while True:
         if len(playerHands[playerTurn]) > 0:
             print("Would you like to plant the next card in your hand (enter \"yes\" or \"no\")?")
             response = input()
+            responseExpected = "y/n"
             checkForHacks(response)
             if response.lower() == "yes":
                 print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
                     numberOfFieldsInUse) + ")?")
                 response = input()
-                if not response.isdigit():
-                    checkForHacks(response)
+                responseExpected = "int"
+                responseMax = numberOfFieldsInUse
+                responseMin = 1
+                checkForHacks(response)
                 response = int(response)
                 if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                    response - 1] == playerHands[playerTurn][0]:
@@ -580,14 +593,17 @@ while True:
         print("Otherwise, the non-active players should give offers to " + playerNames[
             playerTurn] + " and they should enter \"yes\"")
         response = input()
+        responseExpected = "y/n"
         checkForHacks(response)
         if response.lower() == "no":
             print("Where would " + playerNames[playerTurn] + " like to plant this " + cardNames[tradingCards[i]] + " (enter a number between 1 and " +
                   str(numberOfFieldsInUse) + ")?")
             showFieldsOfPlayer(playerTurn)
             response = input()
-            if not response.isdigit():
-                checkForHacks(response)
+            responseExpected = "int"
+            responseMax = numberOfFieldsInUse
+            responseMin = 1
+            checkForHacks(response)
             response = int(response)
             if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                                                       response - 1] == tradingCards[i]:
@@ -598,14 +614,18 @@ while True:
             print("After " + playerNames[
                 playerTurn] + " has decided on who to trade with, enter the name of that person.")
             response = input()
+            responseExpected = "name"
+            responseCantBe = [playerNames[playerTurn]]
             checkForHacks(response)
             tradingPlayer = lowerCasePlayerNames.index(response.lower())
             showFieldsOfPlayer(tradingPlayer)
             print(playerNames[tradingPlayer] + ", where would you like to plant your new " + cardNames[
                 tradingCards[i]] + "?")
             response = input()
-            if not response.isdigit():
-                checkForHacks(response)
+            responseExpected = "int"
+            responseMax = numberOfFieldsInUse
+            responseMin = 1
+            checkForHacks(response)
             response = int(response)
             if not quantityOfBeansInFields[tradingPlayer][response - 1] == 0 and not typeOfBeansInFields[tradingPlayer][
                                                                                          response - 1] == tradingCards[
@@ -619,8 +639,10 @@ while True:
             print(playerNames[tradingPlayer] + "'s cards:")
             showHandOfPlayer(tradingPlayer)
             response = input()
-            if not response.isdigit():
-                checkForHacks(response)
+            responseExpected = "int"
+            responseMax = len(playerHands[tradingPlayer])
+            responseMin = 0
+            checkForHacks(response)
             response = int(response)
             for j in range(response):
                 if response != 1:
@@ -644,8 +666,10 @@ while True:
                     print(playerColoursANSI[5] + "Enter the placement of the card you want to trade with. Enter a "
                                                  "number between 1 and " + str(len(playerHands[tradingPlayer])) + ".")
                 response = input()
-                if not response.isdigit():
-                    checkForHacks(response)
+                responseExpected = "int"
+                responseMax = len(playerHands[tradingPlayer])
+                responseMin = 1
+                checkForHacks(response)
                 response = int(response)
                 tradingCardsOfOtherPlayer.append(playerHands[tradingPlayer].pop(response - 1))
                 print(playerColoursANSI[5] + playerNames[tradingPlayer] + "'s cards:")
@@ -655,8 +679,10 @@ while True:
             tradingCardsOfOtherPlayer[i]] + "?")
         showFieldsOfPlayer(playerTurn)
         response = input()
-        if not response.isdigit():
-            checkForHacks(response)
+        responseExpected = "int"
+        responseMax = numberOfFieldsInUse
+        responseMin = 1
+        checkForHacks(response)
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                            response - 1] == tradingCardsOfOtherPlayer[i]:
