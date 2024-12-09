@@ -220,7 +220,10 @@ def showHandOfPlayer(player):
 
 def harvestBeans(player, field):
     if typeOfBeansInFields[player][field] == 6:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Garden Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Garden Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Garden Beans")
         if quantityOfBeansInFields[player][field] >= 2:
             if quantityOfBeansInFields[player][field] >= 3:
                 coins[player] += 3
@@ -231,7 +234,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[7] -= 2
                 print(playerNames[player] + " earned 2 coins!")
     elif typeOfBeansInFields[player][field] == 8:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Red Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Red Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Red Beans")
         if quantityOfBeansInFields[player][field] >= 2:
             if quantityOfBeansInFields[player][field] >= 3:
                 if quantityOfBeansInFields[player][field] >= 4:
@@ -252,8 +258,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[6] -= 1
                 print(playerNames[player] + " earned 1 coin!")
     elif typeOfBeansInFields[player][field] == 10:
-        print(
-            playerNames[player] + "is harvesting " + str(quantityOfBeansInFields[player][field]) + " Black-eyed Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Black-Eyed Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Black-Eyed Beans")
         if quantityOfBeansInFields[player][field] >= 2:
             if quantityOfBeansInFields[player][field] >= 4:
                 if quantityOfBeansInFields[player][field] >= 5:
@@ -274,7 +282,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[5] -= 1
                 print(playerNames[player] + " earned 1 coins!")
     elif typeOfBeansInFields[player][field] == 12:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Soy Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Soy Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Soy Beans")
         if quantityOfBeansInFields[player][field] >= 2:
             if quantityOfBeansInFields[player][field] >= 4:
                 if quantityOfBeansInFields[player][field] >= 6:
@@ -295,7 +306,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[4] -= 1
                 print(playerNames[player] + " earned 1 coin!")
     elif typeOfBeansInFields[player][field] == 14:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Green Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Green Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Green Beans")
         if quantityOfBeansInFields[player][field] >= 3:
             if quantityOfBeansInFields[player][field] >= 5:
                 if quantityOfBeansInFields[player][field] >= 6:
@@ -316,7 +330,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[3] -= 1
                 print(playerNames[player] + " earned 1 coin!")
     elif typeOfBeansInFields[player][field] == 16:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Stink Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Stink Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Stink Beans")
         if quantityOfBeansInFields[player][field] >= 3:
             if quantityOfBeansInFields[player][field] >= 5:
                 if quantityOfBeansInFields[player][field] >= 7:
@@ -337,7 +354,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[2] -= 1
                 print(playerNames[player] + " earned 1 coin!")
     elif typeOfBeansInFields[player][field] == 18:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Chili Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Chili Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Chili Beans")
         if quantityOfBeansInFields[player][field] >= 3:
             if quantityOfBeansInFields[player][field] >= 6:
                 if quantityOfBeansInFields[player][field] >= 8:
@@ -358,7 +378,10 @@ def harvestBeans(player, field):
                 cardsLeftInDiscardAndPickupPile[1] -= 1
                 print(playerNames[player] + " earned 1 coin!")
     elif typeOfBeansInFields[player][field] == 20:
-        print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Blue Beans")
+        if quantityOfBeansInFields[player][field] == 1:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Blue Bean")
+        else:
+            print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Blue Beans")
         if quantityOfBeansInFields[player][field] >= 4:
             if quantityOfBeansInFields[player][field] >= 6:
                 if quantityOfBeansInFields[player][field] >= 8:
@@ -447,9 +470,9 @@ def endTheGame():
 
 def checkForHacks(command):
     if command.isdigit():
-        if not responseExpected == "int" or command >= responseMax or command <= responseMin:
+        if not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin:
             checkForHacksBodyCode(command)
-    elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and command.lower() == "no"):
+    elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and not command.lower() == "no") or responseExpected == "int":
         checkForHacksBodyCode(command)
 
 
@@ -528,7 +551,7 @@ while True:
         checkForHacks(response)
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                                              response - 1] == playerHands:
+                                                                              response - 1] == playerHands[playerTurn][0]:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
         typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
@@ -586,9 +609,9 @@ while True:
     tradingCardsOfOtherPlayer = []
     for i in range(2):  # Trading stage (loop of range(2) because two cards are flipped over)
         if i == 0:
-            print(playerColoursANSI[5] + "Would anyone like to trade for the first card?")
+            print(playerColoursANSI[5] + "Would anyone like to trade for the first card (a " + cardNames[tradingCards[0]] + ")??")
         else:
-            print(playerColoursANSI[5] + "Would anyone like to trade for the second card?")
+            print(playerColoursANSI[5] + "Would anyone like to trade for the second card (a " + cardNames[tradingCards[1]] + ")?")
         print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter \"no\".")
         print("Otherwise, the non-active players should give offers to " + playerNames[
             playerTurn] + " and they should enter \"yes\"")
@@ -633,8 +656,8 @@ while True:
                 harvestBeans(tradingPlayer, response - 1)
             quantityOfBeansInFields[tradingPlayer][response - 1] += 1
             typeOfBeansInFields[tradingPlayer][response - 1] = tradingCards[i]
-            print(playerColoursANSI[5] + "How many cards would " + playerNames[
-                tradingPlayer] + " like to trade for this card? Enter a number between 0 and " + str(
+            print(playerColoursANSI[5] + "How many beans did " + playerNames[
+                tradingPlayer] + " agree to trade for this bean? Enter a number between 0 and " + str(
                 len(playerHands[tradingPlayer])))
             print(playerNames[tradingPlayer] + "'s cards:")
             showHandOfPlayer(tradingPlayer)
@@ -663,7 +686,7 @@ while True:
                             j + 1) + "th card you want to trade with. Enter a number between 1 and " + str(
                             len(playerHands[tradingPlayer])))
                 else:
-                    print(playerColoursANSI[5] + "Enter the placement of the card you want to trade with. Enter a "
+                    print(playerColoursANSI[5] + "Enter the placement of the card you agreed to trade with. Enter a "
                                                  "number between 1 and " + str(len(playerHands[tradingPlayer])) + ".")
                 response = input()
                 responseExpected = "int"
