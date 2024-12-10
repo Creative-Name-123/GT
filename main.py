@@ -82,7 +82,7 @@ def showFieldsOfPlayer(player):
         print("|          1.          |    |          2.          |")
     else:
         field = [0, 0, 0]
-        print(playerColoursANSI[player] + "______________________      ______________________      "
+        print(playerColoursANSI[player] + " ______________________      ______________________      "
                                           "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
         print("|          1.          |    |          2.          |    |          3.          |")
@@ -95,11 +95,13 @@ def showFieldsOfPlayer(player):
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(4):
+    for k in range(5):
+        for l in range(numberOfFieldsInUse):
+            field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"                                         # NEW ASCII ART CODE HERE
         if numberOfFieldsInUse == 2:
-            print("|                      |    |                      |")
+            print(str(field[0]) + "    " + str(field[1]))
         else:
-            print("|                      |    |                      |    |                      |")
+            print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
     for k in range(numberOfFieldsInUse):
         if len(str(quantityOfBeansInFields[player][k])) == 1:
             quantity = "0" + str(quantityOfBeansInFields[player][k])
@@ -407,6 +409,9 @@ def harvestBeans(player, field):
 
 def endTheGame():
     global forcedEnd
+    actualCoins = coins
+    if "Evan" in playerNames:
+        actualCoins[playerNames.index("Evan")] -= 1000
     coinsInOrder = []
     positionsInReverseOrder = []
     for k in range(numberOfPlayers):
@@ -414,43 +419,44 @@ def endTheGame():
         positionsInReverseOrder.append(int(coins.index(min(coins))))
         coins[coins.index(min(coins))] += 9999999999999999999999
     if forcedEnd == 1:
-        print(playerColoursANSI[5] + "The game has now been ended.")
+        print(playerColoursANSI[5] + "The game has been ended.")
     else:
-        print("The deck has now run out for the third and final time. The game is now over.")
+        print("The deck has run out for the third and final time. The game is now over.")
     print("Press enter to go through the results")
     input()
     if numberOfPlayers >= 5:
-        print("In fifth place...")
+        print(playerColoursANSI[5] + "In fifth place...")
         input()
-        print("is " + playerNames[positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+        print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
         input()
     if numberOfPlayers >= 4:
-        print("In fourth place...")
+        print(playerColoursANSI[5] + "In fourth place...")
         input()
-        print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-4]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(
             coinsInOrder[numberOfPlayers-4]) + " coins!")
         input()
-    print("In third place...")
+    print(playerColoursANSI[5] + "In third place...")
     input()
-    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(
+    print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-3]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(
         coinsInOrder[numberOfPlayers-3]) + " coins!")
-    print("In second place...")
     input()
-    print("is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(
+    print(playerColoursANSI[5] + "In second place...")
+    input()
+    print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-2]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(
         coinsInOrder[numberOfPlayers-2]) + " coins!")
     input()
-    print("That means that " + playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won!")
+    print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-1]] + "That means that " + playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won!")
     print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(
-        coinsInOrder[numberOfPlayers-2]) + "coins!")
+        coinsInOrder[numberOfPlayers-1]) + " coins!")
+    input()
     if "Evan" in playerNames:
-        print("I\'m kidding :)")
-        coins[playerNames.index("Evan")] -= 1000
+        print(playerColoursANSI[5] + "I'm kidding :)")
         coinsInOrder = []
         positionsInReverseOrder = []
         for k in range(numberOfPlayers):
-            coinsInOrder.append(min(coins))
-            positionsInReverseOrder.append(int(coins.index(min(coins))))
-            coins.remove(min(coins))
+            coinsInOrder.append(min(actualCoins))
+            positionsInReverseOrder.append(int(actualCoins.index(min(actualCoins))))
+            actualCoins[actualCoins.index(min(actualCoins))] += 9999999999999999999999
         input()
         print("Here are the real results:")
         if numberOfPlayers >= 5:
@@ -480,13 +486,13 @@ def checkForHacksBodyCode(command):
     global response
     global forcedEnd
     if command == "/help":
-        print("type \"/checkStats\" to see some of the game's current stats")
+        print(playerColoursANSI[5] + "type \"/checkStats\" to see some of the game's current stats")
         print("type \"/endGame\" to end the game")
     elif command.lower() == "/endgame":
         forcedEnd = 1
         endTheGame()
     elif command.lower() == "/checkstats":
-        print("Starting player: " + playerNames[startingPlayer])
+        print(playerColoursANSI[5] + "Starting player: " + playerNames[startingPlayer])
         print("Coins of players:")
         print(playerNames[0] + ": " + str(coins[0]))
         print(playerNames[1] + ": " + str(coins[1]))
@@ -508,12 +514,13 @@ playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
-coins = [10, 20, 30, 40, 50]
+coins = [9999, 9999, 9999, 9999, 9999]
 typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
 responseCantBe = []
+ASCIIArt = [["                    ", "                    "], 1, 2, 3, 4, 5, [0, 1, 2, 3, 4], 7, [0, 1, 2, 3, 4], 9, ["       * *          ", "     *  __  *       ", "     o_|@ |         ", "       |__|_o       ", "       |  |         "], 11, ["        \\           ", "       | |          ", "     ”_|”|          ", "       |_|          ", "        L|          "], 13, ["      \\   8        ", "      \\o\\ |         ", "       \\~\\+,        ", "        \\_|        ", "        | |\\       "], 15, ["                    ", "       _____        ", "    o_| ..  |       ", "      |     |       ", "   |_|_______|      "], 18, ["        \\"          , "        /\\          ", "       |”| _-.      ", "      _|u||  |      ", "      / / |  |      "], 19, ["        __n__       ", "         |'|        ", "         |_|        ", "        -|_|-       ", "         |  \\       "]]
 print(playerColoursANSI[5] + "Welcome to Bohnanza!")
 print("How many players are there? There must be between 3 and 5 players.")
 numberOfPlayers = int(input())
@@ -533,6 +540,8 @@ for i in range(numberOfPlayers):
     lowerCasePlayerNames.append(response.lower())
     if response == "Evan":
         coins[i] = 1000
+    else:
+        coins[i] = 0
 print(playerColoursANSI[5] + "Who most recently ate beans?")
 startingPlayerName = input()
 startingPlayer = playerNames.index(startingPlayerName)
