@@ -93,8 +93,10 @@ def showFieldsOfPlayer(player):
             field[k] = "|          " + str(typeOfBeansInFields[player][k]) + "          |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
+        print("|                      |    |                      |")
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
+        print("|                      |    |                      |    |                      |")
     for k in range(5):
         for l in range(numberOfFieldsInUse):
             field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"                                         # NEW ASCII ART CODE HERE
@@ -476,7 +478,7 @@ def endTheGame():
 
 def checkForHacks(command):
     if command.isdigit():
-        if not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin:
+        if (not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin) and (command not in playerNames and responseExpected == "name"):
             checkForHacksBodyCode(command)
     elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and not command.lower() == "no") or responseExpected == "int":
         checkForHacksBodyCode(command)
@@ -520,10 +522,30 @@ quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
 responseCantBe = []
-ASCIIArt = [["                    ", "                    "], 1, 2, 3, 4, 5, [0, 1, 2, 3, 4], 7, [0, 1, 2, 3, 4], 9, ["       * *          ", "     *  __  *       ", "     o_|@ |         ", "       |__|_o       ", "       |  |         "], 11, ["        \\           ", "       | |          ", "     ”_|”|          ", "       |_|          ", "        L|          "], 13, ["      \\   8        ", "      \\o\\ |         ", "       \\~\\+,        ", "        \\_|        ", "        | |\\       "], 15, ["                    ", "       _____        ", "    o_| ..  |       ", "      |     |       ", "   |_|_______|      "], 18, ["        \\"          , "        /\\          ", "       |”| _-.      ", "      _|u||  |      ", "      / / |  |      "], 19, ["        __n__       ", "         |'|        ", "         |_|        ", "        -|_|-       ", "         |  \\       "]]
+ASCIIArt = [["                      ", "                      ", "                      ", "                      ", "                      ", "                     "], 1, 2, 3, 4, 5, [
+    "          / \\-        ", "        / /           ", "       |@|            ", "      / \\v|           ", "      |_              "], 7, [
+    "       \\  |  /        ", "     -   ___   -      ", "     -  |00 \\  -      ", "         |U_/         ", "         /  \\         "], 9, [
+    "        * *           ", "      *  __  *        ", "      o_|@ |          ", "        |__|_o        ", "        |  |          "], 11, [
+    "         \\            ", "        | |           ", "      ”_|”|           ", "        |_|           ", "         L|           "], 13, [
+    "       \\   8         ", "       \\o\\ |          ", "        \\~\\+,         ", "         \\_|         ", "         | |\\        "], 15, [
+    "                      ", "        _____         ", "     o_| ..  |        ", "       |     |        ", "    |_|_______|       "], 17, [
+    "          \\           ", "         /\\           ", "        |”| _-.       ", "       _|u||  |       ", "       / / |  |       "], 19, [
+    "         __n__        ", "          |'|         ", "          |_|         ", "         -|_|-        ", "          |  \\        "]]
 print(playerColoursANSI[5] + "Welcome to Bohnanza!")
 print("How many players are there? There must be between 3 and 5 players.")
-numberOfPlayers = int(input())
+response = input()
+breaker = False
+while True:
+    if response.isdigit():
+        if 3 <= int(response) <= 5:
+            breaker = True
+        else:
+            response = input()
+    else:
+        response = input()
+    if breaker:
+        break
+numberOfPlayers = int(response)
 playerNames = []
 lowerCasePlayerNames = []
 if numberOfPlayers == 3:
@@ -618,7 +640,7 @@ while True:
     tradingCardsOfOtherPlayer = []
     for i in range(2):  # Trading stage (loop of range(2) because two cards are flipped over)
         if i == 0:
-            print(playerColoursANSI[5] + "Would anyone like to trade for the first card (a " + cardNames[tradingCards[0]] + ")??")
+            print(playerColoursANSI[5] + "Would anyone like to trade for the first card (a " + cardNames[tradingCards[0]] + ")?")
         else:
             print(playerColoursANSI[5] + "Would anyone like to trade for the second card (a " + cardNames[tradingCards[1]] + ")?")
         print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter \"no\".")
@@ -739,3 +761,4 @@ while True:
         playerTurn += 1
     else:
         playerTurn = 0
+    print("")
