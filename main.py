@@ -6,10 +6,11 @@ def shuffleAndCreateDeck():  # Shuffles the deck
     numberOfTimesDeckHasRunOut += 1
     functionDeck = []
     makeDeck = cardsLeftInDiscardAndPickupPile
-    while max(makeDeck) > 0:
+    while max(makeDeck) > 0:  # While there are still cards to shuffle into the deck
         randomCard = random.randint(1,
                                     makeDeck[7] + makeDeck[6] + makeDeck[5] + makeDeck[4] + makeDeck[3] + makeDeck[2] +
-                                    makeDeck[1] + makeDeck[0])
+                                    makeDeck[1] + makeDeck[0])  # Takes a random card
+        # These next lines of code check what card was taken
         if randomCard > makeDeck[7]:
             if randomCard > makeDeck[7] + makeDeck[6]:
                 if randomCard > makeDeck[7] + makeDeck[6] + makeDeck[5]:
@@ -42,13 +43,13 @@ def shuffleAndCreateDeck():  # Shuffles the deck
         else:
             functionDeck.append(6)
             makeDeck[7] -= 1
-    return functionDeck
+    return functionDeck  # returns the deck
 
 
-def showFieldsOfPlayer(player):
-    if player == 5:
-        global deck
-        global numberOfTimesDeckHasRunOut
+def showFieldsOfPlayer(player):  # This function shows the fields of player (the beans that player has planted)
+    if player == 5:  # If player == 5, the fields shown are the trading cards
+        global deck                          # These two lines are just in case
+        global numberOfTimesDeckHasRunOut    # the deck runs out here
         if len(deck) == 0:
             if not numberOfTimesDeckHasRunOut == 2:
                 if numberOfTimesDeckHasRunOut == 0:
@@ -77,11 +78,14 @@ def showFieldsOfPlayer(player):
         print(playerColoursANSI[player] + playerNames[player] + "'s fields:")
     if numberOfPlayers > 3 or player == 5:
         field = [0, 0]  # fields are 22 spaces wide with 4 spaces in between
+        # this field list is used to print multiple fields beside each other
         print(" ______________________      ______________________ ")
         print("/                      \\    /                      \\")
         print("|          1.          |    |          2.          |")
     else:
         field = [0, 0, 0]
+        # this field list is used to print multiple fields beside each other
+        print(" ______________________      ______________________ ")
         print(playerColoursANSI[player] + " ______________________      ______________________      "
                                           "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
@@ -478,7 +482,7 @@ def endTheGame():
 
 def checkForHacks(command):
     if command.isdigit():
-        if (not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin) and (command not in playerNames and responseExpected == "name"):
+        if (not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin or responseCantBe == command) and not (command in playerNames and responseExpected == "name"):
             checkForHacksBodyCode(command)
     elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and not command.lower() == "no") or responseExpected == "int":
         checkForHacksBodyCode(command)
@@ -667,7 +671,7 @@ while True:
                 playerTurn] + " has decided on who to trade with, enter the name of that person.")
             response = input()
             responseExpected = "name"
-            responseCantBe = [playerNames[playerTurn]]
+            responseCantBe = [playerNames[playerTurn]]                                                  # This line doesn't work for some reason
             checkForHacks(response)
             tradingPlayer = lowerCasePlayerNames.index(response.lower())
             showFieldsOfPlayer(tradingPlayer)
