@@ -99,7 +99,7 @@ def showFieldsOfPlayer(player):
         print("|                      |    |                      |    |                      |")
     for k in range(5):
         for l in range(numberOfFieldsInUse):
-            field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"                                         # NEW ASCII ART CODE HERE
+            field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"
         if numberOfFieldsInUse == 2:
             print(str(field[0]) + "    " + str(field[1]))
         else:
@@ -535,7 +535,7 @@ print(playerColoursANSI[5] + "Welcome to Bohnanza!")
 print("How many players are there? There must be between 3 and 5 players.")
 response = input()
 breaker = False
-while True:
+while not breaker:
     if response.isdigit():
         if 3 <= int(response) <= 5:
             breaker = True
@@ -543,8 +543,6 @@ while True:
             response = input()
     else:
         response = input()
-    if breaker:
-        break
 numberOfPlayers = int(response)
 playerNames = []
 lowerCasePlayerNames = []
