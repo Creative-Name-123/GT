@@ -48,7 +48,7 @@ def shuffleAndCreateDeck():  # Shuffles the deck
 
 def showFieldsOfPlayer(player):  # This function shows the fields of player (the beans that player has planted)
     if player == 5:  # If player == 5, the fields shown are the trading cards
-        global deck                          # These two lines are just in case
+        global deck                          # These next 20 lines are just in case
         global numberOfTimesDeckHasRunOut    # the deck runs out here
         if len(deck) == 0:
             if not numberOfTimesDeckHasRunOut == 2:
@@ -79,13 +79,12 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
     if numberOfPlayers > 3 or player == 5:
         field = [0, 0]  # fields are 22 spaces wide with 4 spaces in between
         # this field list is used to print multiple fields beside each other
-        print(" ______________________      ______________________ ")
+        print(playerColoursANSI[player] + " ______________________      ______________________ ")
         print("/                      \\    /                      \\")
         print("|          1.          |    |          2.          |")
     else:
         field = [0, 0, 0]
         # this field list is used to print multiple fields beside each other
-        print(" ______________________      ______________________ ")
         print(playerColoursANSI[player] + " ______________________      ______________________      "
                                           "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
@@ -101,7 +100,7 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
         print("|                      |    |                      |    |                      |")
-    for k in range(5):
+    for k in range(5):                                               # These next lines print the text art on the cards
         for l in range(numberOfFieldsInUse):
             field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"
         if numberOfFieldsInUse == 2:
@@ -113,7 +112,7 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
             quantity = "0" + str(quantityOfBeansInFields[player][k])
         else:
             quantity = str(quantityOfBeansInFields[player][k])
-        if typeOfBeansInFields[player][k] == 0:
+        if typeOfBeansInFields[player][k] == 0:  # These next lines print the type of bean and the quantity of that bean
             field[k] = "|                      |"
         elif typeOfBeansInFields[player][k] == 6:
             field[k] = "|  Garden Bean (" + quantity + "x)   |"
@@ -135,7 +134,7 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
+    for k in range(numberOfFieldsInUse):                   # The rest of this function prints the bottom of the cards
         if typeOfBeansInFields[player][k] == 0:
             field[k] = "|                      |"
         elif typeOfBeansInFields[player][k] == 6:
@@ -206,7 +205,7 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
         print("\\______________________/    \\______________________/    \\______________________/")
 
 
-def showHandOfPlayer(player):
+def showHandOfPlayer(player):  # Shows what cards player has in their hand
     for k in range(len(playerHands[player])):
         if playerHands[player][k] == 6:
             print(playerColoursANSI[player] + str(k + 1) + ". Garden Bean (6)")
@@ -226,7 +225,7 @@ def showHandOfPlayer(player):
             print(playerColoursANSI[player] + str(k + 1) + ". Blue Bean (20)")
 
 
-def harvestBeans(player, field):
+def harvestBeans(player, field):  # Harvests all beans in player's field
     if typeOfBeansInFields[player][field] == 6:
         if quantityOfBeansInFields[player][field] == 1:
             print(playerNames[player] + " is harvesting " + str(quantityOfBeansInFields[player][field]) + " Garden Bean")
@@ -409,22 +408,22 @@ def harvestBeans(player, field):
                 coins[player] += 1
                 cardsLeftInDiscardAndPickupPile[0] -= 1
                 print(playerNames[player] + " earned 1 coin!")
-    quantityOfBeansInFields[player][field] = 0
-    typeOfBeansInFields[player][field] = 0
+    quantityOfBeansInFields[player][field] = 0  # Empties that
+    typeOfBeansInFields[player][field] = 0      # field
 
 
 def endTheGame():
     global forcedEnd
     actualCoins = coins
-    if "Evan" in playerNames:
+    if "Evan" in playerNames:    # Nothing to see here
         actualCoins[playerNames.index("Evan")] -= 1000
     coinsInOrder = []
     positionsInReverseOrder = []
-    for k in range(numberOfPlayers):
-        coinsInOrder.append(min(coins))
-        positionsInReverseOrder.append(int(coins.index(min(coins))))
-        coins[coins.index(min(coins))] += 9999999999999999999999
-    if forcedEnd == 1:
+    for k in range(numberOfPlayers):  # Figures out what position each of the players are in (based on their coins)
+        coinsInOrder.append(min(coins))  # Takes the lowest value and puts it into this list
+        positionsInReverseOrder.append(int(coins.index(min(coins))))  # Takes the player that had the lowest # of coins and puts it into this list
+        coins[coins.index(min(coins))] += 9999999999999999999999  # Increases the lowest value of coins so that in the next loop, the program can find the 2nd lowest value (and so on)
+    if forcedEnd:  # if someone typed "/endGame"
         print(playerColoursANSI[5] + "The game has been ended.")
     else:
         print("The deck has run out for the third and final time. The game is now over.")
@@ -455,7 +454,7 @@ def endTheGame():
     print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(
         coinsInOrder[numberOfPlayers-1]) + " coins!")
     input()
-    if "Evan" in playerNames:
+    if "Evan" in playerNames:  # Nothing to see here
         print(playerColoursANSI[5] + "I'm kidding :)")
         coinsInOrder = []
         positionsInReverseOrder = []
@@ -477,27 +476,37 @@ def endTheGame():
             coinsInOrder[numberOfPlayers - 2]) + "coins")
         print("1. " + playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " with " + str(
             coinsInOrder[numberOfPlayers - 1]) + "coins")
-    exit()
+    exit()  # Ends the code
 
 
-def checkForHacks(command):
-    if command.isdigit():
-        if (not responseExpected == "int" or int(command) > responseMax or int(command) < responseMin or responseCantBe == command) and not (command in playerNames and responseExpected == "name"):
-            checkForHacksBodyCode(command)
-    elif (responseExpected == "name" and command not in playerNames) or (responseExpected == "y/n" and not command.lower() == "yes" and not command.lower() == "no") or responseExpected == "int":
-        checkForHacksBodyCode(command)
+def checkForHacks():  # Checks if the response is valid
+    global response
+    if responseExpected == "y/n":
+        if response[-1] == "!":
+            response = response[:-1]
+        if response in yes:
+            response = "yes"
+        if response in no:
+            response = "no"
+    if responseExpected == "int" and response in numbers:
+        response = numbers.index(response)
+    if str(response).isdigit():
+        if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+            checkForHacksBodyCode(response)
+    elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
+        checkForHacksBodyCode(response)
 
 
-def checkForHacksBodyCode(command):
+def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
     global response
     global forcedEnd
     if command == "/help":
-        print(playerColoursANSI[5] + "type \"/checkStats\" to see some of the game's current stats")
-        print("type \"/endGame\" to end the game")
-    elif command.lower() == "/endgame":
-        forcedEnd = 1
+        print(playerColoursANSI[5] + "/checkStats - see some of the game's current stats")
+        print("/endGame - end the game")
+    elif command.lower() == "/endgame":  # if this command, end the game
+        forcedEnd = True
         endTheGame()
-    elif command.lower() == "/checkstats":
+    elif command.lower() == "/checkstats":  # if this command, print out a bunch of stats like everyone's coins
         print(playerColoursANSI[5] + "Starting player: " + playerNames[startingPlayer])
         print("Coins of players:")
         print(playerNames[0] + ": " + str(coins[0]))
@@ -509,23 +518,28 @@ def checkForHacksBodyCode(command):
             print(playerNames[4] + ": " + str(coins[4]))
         print("Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
     response = input()
-    checkForHacks(response)
+    checkForHacks()
 
 
-forcedEnd = 0
+forcedEnd = False
 numberOfTimesDeckHasRunOut = -1
 playerColourNames = ["red", "blue", "green", "yellow", "purple", "white", "black"]
 playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
-                     "1;37;40m", "\033[1;30;47m"]
+                     "1;37;40m", "\033[1;30;47m"]  # Colours
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
+# Words that mean yes or no that can be used to respond to yes/no questions (just a fun thing I implemented)
+yes = ["all right", "alright", "very well", "of course", "of course", "by all means", "sure", "certainly", "absolutely", "indeed", "affirmative", "agreed", "aye aye", "yeah", "ya", "yah", "yep", "yup", "uh-huh", "okay", "ok", "okey-dokey", "okie-dokie", "okey-doke", "yea", "yes please", "yes, please"]
+no = ["absolutely not", "certainly not", "most certainly not", "of course not", "under no circumstances", "by no means", "not at all", "negative", "never", "not really", "no thanks", "no, thanks", "nae", "nope", "nah", "no way", "no siree", "nay", "unfortunately not"]
+numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 coins = [9999, 9999, 9999, 9999, 9999]
 typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
 responseCantBe = []
+# The next line is blank, the line after that is the art for the Garden Bean (6), the line after that is for the Red Bean (8), and so on
 ASCIIArt = [["                      ", "                      ", "                      ", "                      ", "                      ", "                     "], 1, 2, 3, 4, 5, [
     "          / \\-        ", "        / /           ", "       |@|            ", "      / \\v|           ", "      |_              "], 7, [
     "       \\  |  /        ", "     -   ___   -      ", "     -  |00 \\  -      ", "         |U_/         ", "         /  \\         "], 9, [
@@ -536,6 +550,79 @@ ASCIIArt = [["                      ", "                      ", "              
     "          \\           ", "         /\\           ", "        |”| _-.       ", "       _|u||  |       ", "       / / |  |       "], 19, [
     "         __n__        ", "          |'|         ", "          |_|         ", "         -|_|-        ", "          |  \\        "]]
 print(playerColoursANSI[5] + "Welcome to Bohnanza!")
+breaker = False
+print("Would you like a tutorial to learn how to play?")
+response = input()
+while not breaker:
+    if response.lower() == "yes" or response.lower() == "no":
+        breaker = True
+    else:
+        response = input()
+# Here is the tutorial
+if response.lower() == "yes":
+    print("Press enter to go through the tutorial")
+    input()
+    print("To play Bohnanza, you plant beans and harvest them to try to get more coins than anyone else")
+    input()
+    print("To start, everyone gets dealt five cards. Whenever you check your hand, you will see something like this:")
+    print("1. Black-Eyed Bean (10)")
+    print("2. Soy Bean (12)")
+    print("3. Chili Bean (18)")
+    print("4. Green Bean (14)")
+    print("5. Black-Eyed Bean (10)")
+    input()
+    print("There are eight types of beans in this game, and each type has a different quantity in the deck, indicated by the number in brackets.")
+    input()
+    print("When you are planting a bean, you must either start a bean pile, or continue a bean pile.")
+    print("You may only plant one type of bean in a field. If you try to plant a different type of bean in a field, you will harvest the planted beans (more about that later)")
+    input()
+    print("In a 3 player game, everyone has 3 fields to plant beans in, but in a 4-5 player game, everyone has 2 fields to plant beans in")
+    input()
+    print("The more beans you have in one of your fields, the more money you can earn when you harvest them")
+    print("For example:")
+    print(playerColoursANSI[2] + "Zach's fields:")
+    print(" ______________________      ______________________ ")
+    print("/                      \\    /                      \\")
+    print("|          1.          |    |          2.          |   <- Field number")
+    print("|          20          |    |          16          |   <- Quantity of this card in the deck")
+    print("|                      |    |                      |")
+    print("|         __n__        |    |                      |")
+    print("|          |'|         |    |        _____         |")
+    print("|          |_|         |    |     o_| ..  |        |  <- A nice picture of the bean (taken from the actual game)")
+    print("|         -|_|-        |    |       |     |        |")
+    print("|          |  \\        |    |    |_|_______|       |")
+    print("|   Blue Bean (09x)    |    |   Stink Bean (02x)   |  <- The name of the bean and the quantity of the bean Zach has planted in brackets")
+    print("|                  O   |    |                  O   |")
+    print("|             O    O   |    |             O    O   |")
+    print("|        O    O    O   |    |        O    O    O   |  <- The number of beans required to earn this amount of coins (3 stink beans are")
+    print("|   O    O    O    O   |    |   O    O    O    O   |     required to earn 1 coin, 5 are required to earn two coins, and so on. Each type")
+    print("|   4    6    8   10   |    |   3    5    7    8   |     of bean needs a different number of beans to get coins based on how rare they ")
+    print("\\______________________/    \\______________________/     are in the deck.")
+    print(playerColoursANSI[5] + "In this situation, if Zach were to harvest his blue beans, he would earn 3 coins, as indicated on the bottom of the card.")
+    print("Zach does not have enough stink beans to earn any coins if he were to harvest them, however (he has two, but needs at least three).")
+    input()
+    print("At the beginning of your turn, you must plant the first card in your hand.")
+    print("Then you decide if you want to plant the second card in your hand")
+    input()
+    print("After that, the top two cards from the draw pile will be revealed. You must decide if you want to keep these cards or trade them with another player")
+    input()
+    print("At this time, bartering and discussion between the players is encouraged. Two players come to agreement to the terms of a trade before the active player inputs that they will trade")
+    print("If you don't want the cards, but no one else is willing to trade, you must deal with it and take the cards")
+    input()
+    print("At this time, only the active player is allowed to trade with the other players-- the non-active players cannot trade with each other")
+    print("When trading, you are allowed to trade with as many cards as you have in your hand (you can also trade with zero cards)")
+    input()
+    print("After any trades have been finished and all the traded beans have been planted, you will be dealt three cards to end your turn.")
+    input()
+    print("The game ends when the deck has run out for the third time")
+    print("You can also end the game early by typing \"/endGame\"")
+    input()
+    print("At the end of the game, the player with the most coins wins")
+    input()
+    print("If you have any more questions, go to https://www.riograndegames.com/wp-content/uploads/2013/02/Bohnanza-Rules.pdf to read the official rules")
+    print("(you can ignore the \"bean protection rule\" on the 6th page. This game does not implement that rule)")
+    print("Press enter to start playing the game")
+    input()
 print("How many players are there? There must be between 3 and 5 players.")
 response = input()
 breaker = False
@@ -581,7 +668,7 @@ while True:
         responseExpected = "int"
         responseMax = numberOfFieldsInUse
         responseMin = 1
-        checkForHacks(response)
+        checkForHacks()
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                                               response - 1] == playerHands[playerTurn][0]:
@@ -594,7 +681,7 @@ while True:
             print("Would you like to plant the next card in your hand (enter \"yes\" or \"no\")?")
             response = input()
             responseExpected = "y/n"
-            checkForHacks(response)
+            checkForHacks()
             if response.lower() == "yes":
                 print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
                     numberOfFieldsInUse) + ")?")
@@ -602,7 +689,7 @@ while True:
                 responseExpected = "int"
                 responseMax = numberOfFieldsInUse
                 responseMin = 1
-                checkForHacks(response)
+                checkForHacks()
                 response = int(response)
                 if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                    response - 1] == playerHands[playerTurn][0]:
@@ -650,7 +737,7 @@ while True:
             playerTurn] + " and they should enter \"yes\"")
         response = input()
         responseExpected = "y/n"
-        checkForHacks(response)
+        checkForHacks()
         if response.lower() == "no":
             print("Where would " + playerNames[playerTurn] + " like to plant this " + cardNames[tradingCards[i]] + " (enter a number between 1 and " +
                   str(numberOfFieldsInUse) + ")?")
@@ -659,7 +746,7 @@ while True:
             responseExpected = "int"
             responseMax = numberOfFieldsInUse
             responseMin = 1
-            checkForHacks(response)
+            checkForHacks()
             response = int(response)
             if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                                                       response - 1] == tradingCards[i]:
@@ -672,7 +759,7 @@ while True:
             response = input()
             responseExpected = "name"
             responseCantBe = [playerNames[playerTurn]]                                                  # This line doesn't work for some reason
-            checkForHacks(response)
+            checkForHacks()
             tradingPlayer = lowerCasePlayerNames.index(response.lower())
             showFieldsOfPlayer(tradingPlayer)
             print(playerNames[tradingPlayer] + ", where would you like to plant your new " + cardNames[
@@ -681,7 +768,7 @@ while True:
             responseExpected = "int"
             responseMax = numberOfFieldsInUse
             responseMin = 1
-            checkForHacks(response)
+            checkForHacks()
             response = int(response)
             if not quantityOfBeansInFields[tradingPlayer][response - 1] == 0 and not typeOfBeansInFields[tradingPlayer][
                                                                                          response - 1] == tradingCards[
@@ -698,7 +785,7 @@ while True:
             responseExpected = "int"
             responseMax = len(playerHands[tradingPlayer])
             responseMin = 0
-            checkForHacks(response)
+            checkForHacks()
             response = int(response)
             for j in range(response):
                 if response != 1:
@@ -725,7 +812,7 @@ while True:
                 responseExpected = "int"
                 responseMax = len(playerHands[tradingPlayer])
                 responseMin = 1
-                checkForHacks(response)
+                checkForHacks()
                 response = int(response)
                 tradingCardsOfOtherPlayer.append(playerHands[tradingPlayer].pop(response - 1))
                 print(playerColoursANSI[5] + playerNames[tradingPlayer] + "'s cards:")
@@ -738,7 +825,7 @@ while True:
         responseExpected = "int"
         responseMax = numberOfFieldsInUse
         responseMin = 1
-        checkForHacks(response)
+        checkForHacks()
         response = int(response)
         if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                            response - 1] == tradingCardsOfOtherPlayer[i]:
