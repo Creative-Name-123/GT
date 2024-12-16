@@ -1,3 +1,4 @@
+
 import random
 
 
@@ -481,20 +482,24 @@ def endTheGame():
 
 def checkForHacks():  # Checks if the response is valid
     global response
-    if responseExpected == "y/n":
+    if len(response) > 0:
         if response[-1] == "!":
             response = response[:-1]
-        if response in yes:
-            response = "yes"
-        if response in no:
-            response = "no"
-    if responseExpected == "int" and response in numbers:
-        response = numbers.index(response)
-    if str(response).isdigit():
-        if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+        if responseExpected == "y/n":
+            if response.lower() in yes:
+                response = "yes"
+            if response.lower() in no:
+                response = "no"
+        if responseExpected == "int" and response in numbers:
+            response = numbers.index(response)
+        if str(response).isdigit():
+            if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+                checkForHacksBodyCode(response)
+        elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
             checkForHacksBodyCode(response)
-    elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
-        checkForHacksBodyCode(response)
+    else:
+        response = input(response)
+        checkForHacks()
 
 
 def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
@@ -507,6 +512,7 @@ def checkForHacksBodyCode(command):  # Checks if the response is a command (like
         forcedEnd = True
         endTheGame()
     elif command.lower() == "/checkstats":  # if this command, print out a bunch of stats like everyone's coins
+        print(playerColoursANSI[playerTurn] + "Current player: " + playerNames[playerTurn])
         print(playerColoursANSI[5] + "Starting player: " + playerNames[startingPlayer])
         print("Coins of players:")
         print(playerNames[0] + ": " + str(coins[0]))
@@ -526,6 +532,7 @@ numberOfTimesDeckHasRunOut = -1
 playerColourNames = ["red", "blue", "green", "yellow", "purple", "white", "black"]
 playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
                      "1;37;40m", "\033[1;30;47m"]  # Colours
+playerBoldedColoursANSI = ["\033[1;30;41m", "\033[1;30;44m", "\033[1;30;42m", "\033[1;30;43m", "\033[1;30;45m", "\033[1;30;47"]
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
@@ -554,8 +561,18 @@ breaker = False
 print("Would you like a tutorial to learn how to play?")
 response = input()
 while not breaker:
-    if response.lower() == "yes" or response.lower() == "no":
-        breaker = True
+    if len(response) > 0:
+        if response[-1] == "!":
+            response = response[:-1]
+        if response.lower() in no or response.lower() in yes:
+            if response.lower() in yes:
+                breaker = True
+                response = "yes"
+            else:
+                breaker = True
+                response = "no"
+        else:
+            response = input()
     else:
         response = input()
 # Here is the tutorial
@@ -627,9 +644,16 @@ print("How many players are there? There must be between 3 and 5 players.")
 response = input()
 breaker = False
 while not breaker:
-    if response.isdigit():
-        if 3 <= int(response) <= 5:
-            breaker = True
+    if len(response) > 0:
+        if response[-1] == "!":
+            response = response[:-1]
+        if response in numbers:
+            response = numbers.index(response)
+        if str(response).isdigit():
+            if 3 <= int(response) <= 5:
+                breaker = True
+            else:
+                response = input()
         else:
             response = input()
     else:
@@ -654,11 +678,14 @@ for i in range(numberOfPlayers):
     else:
         coins[i] = 0
 print(playerColoursANSI[5] + "Who most recently ate beans?")
-startingPlayerName = input()
+response = input()
+responseExpected = "name"
+checkForHacks()
+startingPlayerName = response
 startingPlayer = playerNames.index(startingPlayerName)
 playerTurn = startingPlayer
 while True:
-    print(playerColoursANSI[playerTurn] + "It is now " + playerNames[playerTurn] + "'s turn")
+    print(playerBoldedColoursANSI[playerTurn] + "It is now " + playerNames[playerTurn] + "'s turn")
     showFieldsOfPlayer(playerTurn)
     showHandOfPlayer(playerTurn)
     if len(playerHands[playerTurn]) > 0:
@@ -678,7 +705,7 @@ while True:
         showFieldsOfPlayer(playerTurn)
         showHandOfPlayer(playerTurn)
         if len(playerHands[playerTurn]) > 0:
-            print("Would you like to plant the next card in your hand (enter \"yes\" or \"no\")?")
+            print("Would you like to plant the next card in your hand?")
             response = input()
             responseExpected = "y/n"
             checkForHacks()
@@ -732,9 +759,9 @@ while True:
             print(playerColoursANSI[5] + "Would anyone like to trade for the first card (a " + cardNames[tradingCards[0]] + ")?")
         else:
             print(playerColoursANSI[5] + "Would anyone like to trade for the second card (a " + cardNames[tradingCards[1]] + ")?")
-        print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter \"no\".")
+        print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter no.")
         print("Otherwise, the non-active players should give offers to " + playerNames[
-            playerTurn] + " and they should enter \"yes\"")
+            playerTurn] + " and they should enter yes")
         response = input()
         responseExpected = "y/n"
         checkForHacks()
