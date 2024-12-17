@@ -1,4 +1,3 @@
-
 import random
 
 
@@ -415,47 +414,69 @@ def harvestBeans(player, field):  # Harvests all beans in player's field
 
 def endTheGame():
     global forcedEnd
+    if forcedEnd:  # if someone typed "/endGame"
+        print(playerColoursANSI[5] + "The game has been ended.")
+    else:
+        print("The deck has run out for the third and final time. The game is now over.")
+    print("All beans in all players' fields are now being harvested")
+    for k in range(numberOfPlayers):
+        for l in range(numberOfFieldsInUse):
+            harvestBeans(k, l)
     actualCoins = coins
-    if "Evan" in playerNames:    # Nothing to see here
+    if "Evan" in playerNames:  # Nothing to see here
         actualCoins[playerNames.index("Evan")] -= 1000
     coinsInOrder = []
     positionsInReverseOrder = []
     for k in range(numberOfPlayers):  # Figures out what position each of the players are in (based on their coins)
         coinsInOrder.append(min(coins))  # Takes the lowest value and puts it into this list
-        positionsInReverseOrder.append(int(coins.index(min(coins))))  # Takes the player that had the lowest # of coins and puts it into this list
-        coins[coins.index(min(coins))] += 9999999999999999999999  # Increases the lowest value of coins so that in the next loop, the program can find the 2nd lowest value (and so on)
-    if forcedEnd:  # if someone typed "/endGame"
-        print(playerColoursANSI[5] + "The game has been ended.")
-    else:
-        print("The deck has run out for the third and final time. The game is now over.")
+        positionsInReverseOrder.append(
+            int(coins.index(min(coins))))  # Takes the player that had the lowest # of coins and puts it into this list
+        coins[coins.index(
+            min(coins))] += 9999999999999999999999  # Increases the lowest value of coins so that in the next loop, the program can find the 2nd lowest value (and 3rd and so on)
     print("Press enter to go through the results")
     input()
     if numberOfPlayers >= 5:
         print(playerColoursANSI[5] + "In fifth place...")
         input()
-        print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+        if coinsInOrder[0] == 1:
+            print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[positionsInReverseOrder[0]] + " with one sad small coin")
+        elif coinsInOrder[0] == 0:
+            print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[positionsInReverseOrder[0]] + " with exactly zero coins")
+        else:
+            print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
         input()
     if numberOfPlayers >= 4:
         print(playerColoursANSI[5] + "In fourth place...")
         input()
-        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-4]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(
-            coinsInOrder[numberOfPlayers-4]) + " coins!")
+        if coinsInOrder[numberOfPlayers-4] == 1:
+            print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-4]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with one sad small coin")
+        elif coinsInOrder[numberOfPlayers-4] == 0:
+            print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-4]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with exactly zero coins")
+        else:
+            print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-4]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-4]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
         input()
     print(playerColoursANSI[5] + "In third place...")
     input()
-    print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-3]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(
-        coinsInOrder[numberOfPlayers-3]) + " coins!")
+    if coinsInOrder[numberOfPlayers-3] == 1:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-3]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with one sad small coin")
+    elif coinsInOrder[numberOfPlayers-3] == 0:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-3]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with exactly zero coins")
+    else:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-3]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-3]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
     input()
     print(playerColoursANSI[5] + "In second place...")
     input()
-    print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-2]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(
-        coinsInOrder[numberOfPlayers-2]) + " coins!")
+    if coinsInOrder[numberOfPlayers-2] == 1:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-2]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with one sad small coin")
+    elif coinsInOrder[numberOfPlayers-2] == 0:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-2]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with exactly zero coins")
+    else:
+        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-2]] + "is " + playerNames[positionsInReverseOrder[numberOfPlayers-2]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
     input()
     print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers-1]] + "That means that " + playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won!")
-    print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(
-        coinsInOrder[numberOfPlayers-1]) + " coins!")
-    input()
+    print(playerNames[positionsInReverseOrder[numberOfPlayers-1]] + " won with a total of " + str(coinsInOrder[numberOfPlayers-1]) + " coins!")
     if "Evan" in playerNames:  # Nothing to see here
+        input()
         print(playerColoursANSI[5] + "I'm kidding :)")
         coinsInOrder = []
         positionsInReverseOrder = []
@@ -481,25 +502,30 @@ def endTheGame():
 
 
 def checkForHacks():  # Checks if the response is valid
+    goodResponse = False
     global response
-    if len(response) > 0:
-        if response[-1] == "!":
-            response = response[:-1]
-        if responseExpected == "y/n":
-            if response.lower() in yes:
-                response = "yes"
-            if response.lower() in no:
-                response = "no"
-        if responseExpected == "int" and response in numbers:
-            response = numbers.index(response)
-        if str(response).isdigit():
-            if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+    while not goodResponse:
+        if len(response) > 0:
+            if response[-1] == "!":
+                response = response[:-1]
+            if responseExpected == "y/n":
+                if response.lower() in yes:
+                    response = "yes"
+                if response.lower() in no:
+                    response = "no"
+            if responseExpected == "int" and response in numbers:
+                response = numbers.index(response)
+            if str(response).isdigit():
+                if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+                    checkForHacksBodyCode(response)
+                else:
+                    goodResponse = True
+            elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
                 checkForHacksBodyCode(response)
-        elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
-            checkForHacksBodyCode(response)
-    else:
-        response = input(response)
-        checkForHacks()
+            else:
+                goodResponse = True
+        else:
+            response = input(response)
 
 
 def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
@@ -513,18 +539,17 @@ def checkForHacksBodyCode(command):  # Checks if the response is a command (like
         endTheGame()
     elif command.lower() == "/checkstats":  # if this command, print out a bunch of stats like everyone's coins
         print(playerColoursANSI[playerTurn] + "Current player: " + playerNames[playerTurn])
-        print(playerColoursANSI[5] + "Starting player: " + playerNames[startingPlayer])
-        print("Coins of players:")
-        print(playerNames[0] + ": " + str(coins[0]))
-        print(playerNames[1] + ": " + str(coins[1]))
-        print(playerNames[2] + ": " + str(coins[2]))
+        print(playerColoursANSI[startingPlayer] + "Starting player: " + playerNames[startingPlayer])
+        print(playerColoursANSI[5] + "Coins of players:")
+        print(playerColoursANSI[0] + playerNames[0] + ": " + str(coins[0]))
+        print(playerColoursANSI[1] + playerNames[1] + ": " + str(coins[1]))
+        print(playerColoursANSI[2] + playerNames[2] + ": " + str(coins[2]))
         if numberOfPlayers >= 4:
-            print(playerNames[3] + ": " + str(coins[3]))
+            print(playerColoursANSI[3] + playerNames[3] + ": " + str(coins[3]))
         if numberOfPlayers >= 5:
-            print(playerNames[4] + ": " + str(coins[4]))
-        print("Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
+            print(playerColoursANSI[4] + playerNames[4] + ": " + str(coins[4]))
+        print(playerColoursANSI[5] + "Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
     response = input()
-    checkForHacks()
 
 
 forcedEnd = False
@@ -537,16 +562,16 @@ cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
 # Words that mean yes or no that can be used to respond to yes/no questions (just a fun thing I implemented)
-yes = ["all right", "alright", "very well", "of course", "of course", "by all means", "sure", "certainly", "absolutely", "indeed", "affirmative", "agreed", "aye aye", "yeah", "ya", "yah", "yep", "yup", "uh-huh", "okay", "ok", "okey-dokey", "okie-dokie", "okey-doke", "yea", "yes please", "yes, please"]
-no = ["absolutely not", "certainly not", "most certainly not", "of course not", "under no circumstances", "by no means", "not at all", "negative", "never", "not really", "no thanks", "no, thanks", "nae", "nope", "nah", "no way", "no siree", "nay", "unfortunately not"]
+yes = ["yes", "all right", "alright", "very well", "of course", "of course", "by all means", "sure", "certainly", "absolutely", "indeed", "affirmative", "agreed", "aye aye", "yeah", "ya", "yah", "yep", "yup", "uh-huh", "okay", "ok", "okey-dokey", "okie-dokie", "okey-doke", "yea", "yes please", "yes, please"]
+no = ["no", "absolutely not", "certainly not", "most certainly not", "of course not", "under no circumstances", "by no means", "not at all", "negative", "never", "not really", "no thanks", "no, thanks", "nae", "nope", "nah", "no way", "no siree", "nay", "unfortunately not"]
 numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 coins = [9999, 9999, 9999, 9999, 9999]
 typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
 quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 1]]
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
-responseCantBe = []
-# The next line is blank, the line after that is the art for the Garden Bean (6), the line after that is for the Red Bean (8), and so on
+responseCantBe = ""
+# The next line is blank (for empty fields), the line after that is the art for the Garden Bean (6), the line after that is for the Red Bean (8), and so on
 ASCIIArt = [["                      ", "                      ", "                      ", "                      ", "                      ", "                     "], 1, 2, 3, 4, 5, [
     "          / \\-        ", "        / /           ", "       |@|            ", "      / \\v|           ", "      |_              "], 7, [
     "       \\  |  /        ", "     -   ___   -      ", "     -  |00 \\  -      ", "         |U_/         ", "         /  \\         "], 9, [
@@ -636,12 +661,15 @@ if response.lower() == "yes":
     input()
     print("At the end of the game, the player with the most coins wins")
     input()
-    print("If you have any more questions, go to https://www.riograndegames.com/wp-content/uploads/2013/02/Bohnanza-Rules.pdf to read the official rules")
-    print("(you can ignore the \"bean protection rule\" on the 6th page. This game does not implement that rule)")
+    print("If you have any more questions, visit https://www.riograndegames.com/wp-content/uploads/2013/02/Bohnanza-Rules.pdf to read the official rules")
+    print("You can ignore the \"bean protection rule\" on the 6th page of the rulebook. This game does not implement that rule, so you don't have to play by it")
+    input()
+    print("Type \"/help\" at any time after the first player starts playing to learn how to use some commands")
+    input()
     print("Press enter to start playing the game")
     input()
 print("How many players are there? There must be between 3 and 5 players.")
-response = input()
+response = input().lower()
 breaker = False
 while not breaker:
     if len(response) > 0:
@@ -653,11 +681,11 @@ while not breaker:
             if 3 <= int(response) <= 5:
                 breaker = True
             else:
-                response = input()
+                response = input().lower()
         else:
-            response = input()
+            response = input().lower()
     else:
-        response = input()
+        response = input().lower()
 numberOfPlayers = int(response)
 playerNames = []
 lowerCasePlayerNames = []
@@ -667,10 +695,11 @@ else:
     numberOfFieldsInUse = 2
 playerHands = [0, 0, 0, 0, 0]
 for i in range(numberOfPlayers):
-    print(
-        playerColoursANSI[i] + "What is player " + str(i + 1) + "\'s name? This player will be " + playerColourNames[i])
+    print(playerColoursANSI[i] + "What is player " + str(i + 1) + "'s name? This player will be " + playerColourNames[i])
     playerHands[i] = [deck.pop(0), deck.pop(1), deck.pop(2), deck.pop(3), deck.pop(4)]
     response = input()
+    while len(response) == 0 or response in playerNames:
+        response = input()
     playerNames.append(response)
     lowerCasePlayerNames.append(response.lower())
     if response == "Evan":
@@ -785,7 +814,7 @@ while True:
                 playerTurn] + " has decided on who to trade with, enter the name of that person.")
             response = input()
             responseExpected = "name"
-            responseCantBe = [playerNames[playerTurn]]                                                  # This line doesn't work for some reason
+            responseCantBe = playerNames[playerTurn]                                                 # This line doesn't work for some reason
             checkForHacks()
             tradingPlayer = lowerCasePlayerNames.index(response.lower())
             showFieldsOfPlayer(tradingPlayer)
@@ -859,14 +888,14 @@ while True:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
         typeOfBeansInFields[playerTurn][response - 1] = tradingCardsOfOtherPlayer[i]
-    print(playerColoursANSI[5] + playerNames[playerTurn] + " now picks up three cards to finish their turn")
+    print(playerColoursANSI[5] + playerNames[playerTurn] + " now picks up three cards to finish their turn:")
     for i in range(3):
         if len(deck) == 0:
             if not numberOfTimesDeckHasRunOut == 2:
                 if numberOfTimesDeckHasRunOut == 0:
-                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the first time")
                 else:
-                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the second time")
                 deck = shuffleAndCreateDeck()
             else:
                 numberOfTimesDeckHasRunOut += 1
