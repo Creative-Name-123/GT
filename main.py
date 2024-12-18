@@ -562,8 +562,8 @@ cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
 # Words that mean yes or no that can be used to respond to yes/no questions (just a fun thing I implemented)
-yes = ["yes", "all right", "alright", "very well", "of course", "of course", "by all means", "sure", "certainly", "absolutely", "indeed", "affirmative", "agreed", "aye aye", "yeah", "ya", "yah", "yep", "yup", "uh-huh", "okay", "ok", "okey-dokey", "okie-dokie", "okey-doke", "yea", "yes please", "yes, please"]
-no = ["no", "absolutely not", "certainly not", "most certainly not", "of course not", "under no circumstances", "by no means", "not at all", "negative", "never", "not really", "no thanks", "no, thanks", "nae", "nope", "nah", "no way", "no siree", "nay", "unfortunately not"]
+yes = ["yes", "all right", "alright", "very well", "of course", "of course", "by all means", "sure", "certainly", "absolutely", "indeed", "affirmative", "agreed", "aye aye", "yeah", "ya", "yah", "yep", "yup", "uh-huh", "okay", "ok", "okey-dokey", "okie-dokie", "okey-doke", "yea", "yes please", "yes, please", "oui"]
+no = ["no", "absolutely not", "certainly not", "most certainly not", "of course not", "under no circumstances", "by no means", "not at all", "negative", "never", "not really", "no thanks", "no, thanks", "nae", "nope", "nah", "no way", "no siree", "nay", "unfortunately not", "non"]
 numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"]
 coins = [9999, 9999, 9999, 9999, 9999]
 typeOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [0, 0]]
@@ -577,7 +577,7 @@ ASCIIArt = [["                      ", "                      ", "              
     "       \\  |  /        ", "     -   ___   -      ", "     -  |00 \\  -      ", "         |U_/         ", "         /  \\         "], 9, [
     "        * *           ", "      *  __  *        ", "      o_|@ |          ", "        |__|_o        ", "        |  |          "], 11, [
     "         \\            ", "        | |           ", "      ”_|”|           ", "        |_|           ", "         L|           "], 13, [
-    "       \\   8         ", "       \\o\\ |          ", "        \\~\\+,         ", "         \\_|         ", "         | |\\        "], 15, [
+    "       \\   8         ", "       \\o\\ |          ", "        \\~\\+,         ", "         \\_|         ", "         | |\\        "], 15, [  # This line is off
     "                      ", "        _____         ", "     o_| ..  |        ", "       |     |        ", "    |_|_______|       "], 17, [
     "          \\           ", "         /\\           ", "        |”| _-.       ", "       _|u||  |       ", "       / / |  |       "], 19, [
     "         __n__        ", "          |'|         ", "          |_|         ", "         -|_|-        ", "          |  \\        "]]
@@ -668,7 +668,7 @@ if response.lower() == "yes":
     input()
     print("Press enter to start playing the game")
     input()
-print("How many players are there? There must be between 3 and 5 players.")
+print("How many human players are there? There must be between 0 and 5 human players.")
 response = input().lower()
 breaker = False
 while not breaker:
@@ -678,7 +678,7 @@ while not breaker:
         if response in numbers:
             response = numbers.index(response)
         if str(response).isdigit():
-            if 3 <= int(response) <= 5:
+            if 0 <= int(response) <= 5:
                 breaker = True
             else:
                 response = input().lower()
@@ -687,6 +687,29 @@ while not breaker:
     else:
         response = input().lower()
 numberOfPlayers = int(response)
+if numberOfPlayers < 5:
+    print("How many AI players are there? There must be between " + str(3-int(response)) + " and " + str(5-int(response)) + " players.")
+    response = input().lower()
+    breaker = False
+    while not breaker:
+        if len(response) > 0:
+            if response[-1] == "!":
+                response = response[:-1]
+            if response in numbers:
+                response = numbers.index(response)
+            if str(response).isdigit():
+                if 3-numberOfPlayers <= int(response) <= 5-numberOfPlayers:
+                    breaker = True
+                else:
+                    response = input().lower()
+            else:
+                response = input().lower()
+        else:
+            response = input().lower()
+    numberOfPlayers += int(response)
+    numberOfAIPlayers = int(response)
+else:
+    numberOfAIPlayers = 0
 playerNames = []
 lowerCasePlayerNames = []
 if numberOfPlayers == 3:
@@ -695,7 +718,10 @@ else:
     numberOfFieldsInUse = 2
 playerHands = [0, 0, 0, 0, 0]
 for i in range(numberOfPlayers):
-    print(playerColoursANSI[i] + "What is player " + str(i + 1) + "'s name? This player will be " + playerColourNames[i])
+    if numberOfPlayers-numberOfAIPlayers > i:  # The first players are human; the last are AI
+        print(playerColoursANSI[i] + "What is player " + str(i + 1) + "'s name? This human player will be " + playerColourNames[i])
+    else:
+        print(playerColoursANSI[i] + "What is player " + str(i + 1) + "'s name? This AI player will be " + playerColourNames[i])
     playerHands[i] = [deck.pop(0), deck.pop(1), deck.pop(2), deck.pop(3), deck.pop(4)]
     response = input()
     while len(response) == 0 or response in playerNames:
@@ -706,7 +732,17 @@ for i in range(numberOfPlayers):
         coins[i] = 1000
     else:
         coins[i] = 0
-print(playerColoursANSI[5] + "Who most recently ate beans?")
+print(playerColoursANSI[5] + "This question is to determine which player goes first:")
+if numberOfAIPlayers == 0:
+    print("Who most recently ate beans?")
+else:
+    minutes = random.randint(0,59)
+    if len(str(minutes)) == 1:
+        minutes = "0" + str(minutes)
+    if numberOfAIPlayers == 1:
+        print("Who most recently ate beans? The AI player ate beans " + numbers[random.randint(1,5)] + " days ago for breakfast at " + str(random.randint(5,8)) + ":" + str(minutes))
+    else:
+        print("Who most recently ate beans? The AI players ate beans at the same time " + numbers[random.randint(1, 5)] + " days ago for breakfast at " + str(random.randint(5, 8)) + ":" + str(minutes))
 response = input()
 responseExpected = "name"
 checkForHacks()
