@@ -53,9 +53,9 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
         if len(deck) == 0:
             if not numberOfTimesDeckHasRunOut == 2:
                 if numberOfTimesDeckHasRunOut == 0:
-                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the first time")
                 else:
-                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the second time")
                 deck = shuffleAndCreateDeck()
             else:
                 numberOfTimesDeckHasRunOut += 1
@@ -64,9 +64,9 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
         if len(deck) == 0:
             if not numberOfTimesDeckHasRunOut == 2:
                 if numberOfTimesDeckHasRunOut == 0:
-                    print(playerColoursANSI[6] + "The deck has now run out for the first time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the first time")
                 else:
-                    print(playerColoursANSI[6] + "The deck has now run out for the second time")
+                    print(playerBoldedColoursANSI[5] + "The deck has now run out for the second time")
                 deck = shuffleAndCreateDeck()
             else:
                 numberOfTimesDeckHasRunOut += 1
@@ -412,6 +412,110 @@ def harvestBeans(player, field):  # Harvests all beans in player's field
     typeOfBeansInFields[player][field] = 0      # field
 
 
+def decideWhereToPlantBean(player, bean):  # How the AI decides where to plant its beans
+    global response
+    response = "undecided"
+    if bean in typeOfBeansInFields[player]:                  # If the AI has a field that already has the same kind of bean,
+        response = typeOfBeansInFields[player].index(bean)   # then plant the bean there
+    else:
+        for k in range(numberOfFieldsInUse):
+            if quantityOfBeansInFields[player][k] > 0:
+                if maxQuantityOfBeans[typeOfBeansInFields[player][k]] <= quantityOfBeansInFields[playerTurn][k]:  # If the AI has a field that has the maximum amount of beans,
+                    response = k+1                                                                                # then plant the bean there
+                    break
+    if response == "undecided":
+        if numberOfFieldsInUse == 2:
+            if quantityOfBeansInFields[player][0] == 0 or quantityOfBeansInFields[player][1] == 0:  # If the AI has an empty field,
+                response = quantityOfBeansInFields[player].index(0)+1                               # then plant the bean there
+        else:
+            if quantityOfBeansInFields[player][0] == 0 or quantityOfBeansInFields[player][1] == 0 or quantityOfBeansInFields[player][1] == 0:  # The same two lines (almost),
+                response = quantityOfBeansInFields[player].index(0)+1                                                                          # but just for using three fields
+    if response == "undecided":
+        if numberOfFieldsInUse == 2:
+            if minQuantityOfBeans[typeOfBeansInFields[player][0]] <= quantityOfBeansInFields[player][0] and minQuantityOfBeans[typeOfBeansInFields[player][1]] <= quantityOfBeansInFields[player][1]:         # If the AI will gain coins no matter where it harvests,
+                if maxQuantityOfBeans[typeOfBeansInFields[player][0]]-quantityOfBeansInFields[player][0] < maxQuantityOfBeans[typeOfBeansInFields[player][1]]-quantityOfBeansInFields[player][1]:             # the AI will harvest the beans that are closest to the max
+                    response = 1
+                else:
+                    response = 2
+        elif minQuantityOfBeans[typeOfBeansInFields[player][0]] <= quantityOfBeansInFields[player][0] and minQuantityOfBeans[typeOfBeansInFields[player][1]] <= quantityOfBeansInFields[player][1] and minQuantityOfBeans[typeOfBeansInFields[player][2]] <= quantityOfBeansInFields[player][2]:
+            if maxQuantityOfBeans[typeOfBeansInFields[player][0]]-quantityOfBeansInFields[player][0] < maxQuantityOfBeans[typeOfBeansInFields[player][1]]-quantityOfBeansInFields[player][1]:
+                if maxQuantityOfBeans[typeOfBeansInFields[player][0]]-quantityOfBeansInFields[player][0] < maxQuantityOfBeans[typeOfBeansInFields[player][2]]-quantityOfBeansInFields[player][2]:
+                    response = 1
+                else:
+                    response = 2
+            elif maxQuantityOfBeans[typeOfBeansInFields[player][2]]-quantityOfBeansInFields[player][2] < maxQuantityOfBeans[typeOfBeansInFields[player][1]]-quantityOfBeansInFields[player][1]:
+                response = 3
+            else:
+                response = 2
+    if response == "undecided":                                                                                                                                                                          # If the AI still hasn't decided where to plant its beans,
+        if numberOfFieldsInUse == 2:
+            if abs(quantityOfBeansInFields[player][0]-minQuantityOfBeans[typeOfBeansInFields[player][0]]) > abs(quantityOfBeansInFields[player][1]-minQuantityOfBeans[typeOfBeansInFields[player][1]]):  # the AI will plant its beans in the field where the beans are the farthest away from the minimum
+                response = 1
+            else:
+                response = 2
+        elif abs(quantityOfBeansInFields[player][0]-minQuantityOfBeans[typeOfBeansInFields[player][0]]) > abs(quantityOfBeansInFields[player][1]-minQuantityOfBeans[typeOfBeansInFields[player][1]]):
+            if abs(quantityOfBeansInFields[player][2] - minQuantityOfBeans[typeOfBeansInFields[player][2]]) > abs(quantityOfBeansInFields[player][0] - minQuantityOfBeans[typeOfBeansInFields[player][0]]):
+                response = 3
+            else:
+                response = 1
+        elif abs(quantityOfBeansInFields[player][2]-minQuantityOfBeans[typeOfBeansInFields[player][2]]) > abs(quantityOfBeansInFields[player][1]-minQuantityOfBeans[typeOfBeansInFields[player][1]]):
+            response = 3
+        else:
+            response = 2
+    print(AIResponseColoursANSI[playerTurn] + str(response))
+
+
+def checkForHacks():  # Checks if the response is valid
+    goodResponse = False
+    global response
+    while not goodResponse:
+        if len(response) > 0:
+            if response[-1] == "!":
+                response = response[:-1]
+            if responseExpected == "y/n":
+                if response.lower() in yes:
+                    response = "yes"
+                if response.lower() in no:
+                    response = "no"
+            if responseExpected == "int" and response in numbers:
+                response = numbers.index(response)
+            if str(response).isdigit():
+                if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
+                    checkForHacksBodyCode(response)
+                else:
+                    goodResponse = True
+            elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
+                checkForHacksBodyCode(response)
+            else:
+                goodResponse = True
+        else:
+            response = input(response)
+
+
+def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
+    global response
+    global forcedEnd
+    if command == "/help":
+        print(playerColoursANSI[5] + "/checkStats - see some of the game's current stats")
+        print("/endGame - end the game")
+    elif command.lower() == "/endgame":  # if this command, end the game
+        forcedEnd = True
+        endTheGame()
+    elif command.lower() == "/checkstats":  # if this command, print out a bunch of stats like everyone's coins
+        print(playerColoursANSI[playerTurn] + "Current player: " + playerNames[playerTurn])
+        print(playerColoursANSI[startingPlayer] + "Starting player: " + playerNames[startingPlayer])
+        print(playerColoursANSI[5] + "Coins of players:")
+        print(playerColoursANSI[0] + playerNames[0] + ": " + str(coins[0]))
+        print(playerColoursANSI[1] + playerNames[1] + ": " + str(coins[1]))
+        print(playerColoursANSI[2] + playerNames[2] + ": " + str(coins[2]))
+        if numberOfPlayers >= 4:
+            print(playerColoursANSI[3] + playerNames[3] + ": " + str(coins[3]))
+        if numberOfPlayers >= 5:
+            print(playerColoursANSI[4] + playerNames[4] + ": " + str(coins[4]))
+        print(playerColoursANSI[5] + "Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
+    response = input()
+
+
 def endTheGame():
     global forcedEnd
     if forcedEnd:  # if someone typed "/endGame"
@@ -501,63 +605,17 @@ def endTheGame():
     exit()  # Ends the code
 
 
-def checkForHacks():  # Checks if the response is valid
-    goodResponse = False
-    global response
-    while not goodResponse:
-        if len(response) > 0:
-            if response[-1] == "!":
-                response = response[:-1]
-            if responseExpected == "y/n":
-                if response.lower() in yes:
-                    response = "yes"
-                if response.lower() in no:
-                    response = "no"
-            if responseExpected == "int" and response in numbers:
-                response = numbers.index(response)
-            if str(response).isdigit():
-                if (not responseExpected == "int" or int(response) > responseMax or int(response) < responseMin or responseCantBe == response) and not (response in playerNames and responseExpected == "name"):
-                    checkForHacksBodyCode(response)
-                else:
-                    goodResponse = True
-            elif (responseExpected == "name" and response not in playerNames) or (responseExpected == "y/n" and not response.lower() == "yes" and not response.lower() == "no") or responseExpected == "int":
-                checkForHacksBodyCode(response)
-            else:
-                goodResponse = True
-        else:
-            response = input(response)
-
-
-def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
-    global response
-    global forcedEnd
-    if command == "/help":
-        print(playerColoursANSI[5] + "/checkStats - see some of the game's current stats")
-        print("/endGame - end the game")
-    elif command.lower() == "/endgame":  # if this command, end the game
-        forcedEnd = True
-        endTheGame()
-    elif command.lower() == "/checkstats":  # if this command, print out a bunch of stats like everyone's coins
-        print(playerColoursANSI[playerTurn] + "Current player: " + playerNames[playerTurn])
-        print(playerColoursANSI[startingPlayer] + "Starting player: " + playerNames[startingPlayer])
-        print(playerColoursANSI[5] + "Coins of players:")
-        print(playerColoursANSI[0] + playerNames[0] + ": " + str(coins[0]))
-        print(playerColoursANSI[1] + playerNames[1] + ": " + str(coins[1]))
-        print(playerColoursANSI[2] + playerNames[2] + ": " + str(coins[2]))
-        if numberOfPlayers >= 4:
-            print(playerColoursANSI[3] + playerNames[3] + ": " + str(coins[3]))
-        if numberOfPlayers >= 5:
-            print(playerColoursANSI[4] + playerNames[4] + ": " + str(coins[4]))
-        print(playerColoursANSI[5] + "Number of times deck has run out: " + str(numberOfTimesDeckHasRunOut))
-    response = input()
 
 
 forcedEnd = False
 numberOfTimesDeckHasRunOut = -1
 playerColourNames = ["red", "blue", "green", "yellow", "purple", "white", "black"]
-playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m", "\033["
-                     "1;37;40m", "\033[1;30;47m"]  # Colours
-playerBoldedColoursANSI = ["\033[1;30;41m", "\033[1;30;44m", "\033[1;30;42m", "\033[1;30;43m", "\033[1;30;45m", "\033[1;30;47"]
+# Code for the coloured text
+playerColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m",
+                     "\033[1;37;40m", "\033[1;30;47m"]
+playerBoldedColoursANSI = ["\033[1;30;41m", "\033[1;30;44m", "\033[1;30;42m", "\033[1;30;43m", "\033[1;30;45m",
+                           "\033[1;30;47"]
+AIResponseColoursANSI = ["\033[1;31;40m", "\033[1;34;40m", "\033[1;32;40m", "\033[1;33;40m", "\033[1;35;40m"]
 cardsLeftInDiscardAndPickupPile = [20, 18, 16, 14, 12, 10, 8, 6]
 cardNames = [0, 1, 2, 3, 4, 5, "Garden Bean", 7, "Red Bean", 9, "Black-eyed Bean", 11, "Soy Bean", 13, "Green Bean", 15,
              "Stink Bean", 17, "Chili Bean", 19, "Blue Bean"]
@@ -571,13 +629,15 @@ quantityOfBeansInFields = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0], [0, 0], [1, 
 deck = shuffleAndCreateDeck()
 tradingCards = [0, 0]
 responseCantBe = ""
+maxQuantityOfBeans = ["These", "words", "don't", "matter,", "but", "the", 3, "numbers", 5, "do", 6, "for", 7, "the", 7, "AI", 8, "players", 9, "", 10]
+minQuantityOfBeans = ["These", "words", "also", "don't", "matter,", "but", 2, "the", 2, "numbers", 2, "do", 2, "for", 3, "the", 3, "AI", 3, "players", 4]
 # The next line is blank (for empty fields), the line after that is the art for the Garden Bean (6), the line after that is for the Red Bean (8), and so on
 ASCIIArt = [["                      ", "                      ", "                      ", "                      ", "                      ", "                     "], 1, 2, 3, 4, 5, [
     "          / \\-        ", "        / /           ", "       |@|            ", "      / \\v|           ", "      |_              "], 7, [
     "       \\  |  /        ", "     -   ___   -      ", "     -  |00 \\  -      ", "         |U_/         ", "         /  \\         "], 9, [
     "        * *           ", "      *  __  *        ", "      o_|@ |          ", "        |__|_o        ", "        |  |          "], 11, [
     "         \\            ", "        | |           ", "      ”_|”|           ", "        |_|           ", "         L|           "], 13, [
-    "       \\   8         ", "       \\o\\ |          ", "        \\~\\+,         ", "         \\_|         ", "         | |\\        "], 15, [  # This line is off
+    "       \\   8          ", "       \\o\\ |          ", "        \\~\\+,         ", "         \\_|          ", "         | |\\         "], 15, [
     "                      ", "        _____         ", "     o_| ..  |        ", "       |     |        ", "    |_|_______|       "], 17, [
     "          \\           ", "         /\\           ", "        |”| _-.       ", "       _|u||  |       ", "       / / |  |       "], 19, [
     "         __n__        ", "          |'|         ", "          |_|         ", "         -|_|-        ", "          |  \\        "]]
@@ -626,7 +686,7 @@ if response.lower() == "yes":
     print(" ______________________      ______________________ ")
     print("/                      \\    /                      \\")
     print("|          1.          |    |          2.          |   <- Field number")
-    print("|          20          |    |          16          |   <- Quantity of this card in the deck")
+    print("|          20          |    |          16          |   <- Quantity of this card in the deck (also shown when you check your hand)")
     print("|                      |    |                      |")
     print("|         __n__        |    |                      |")
     print("|          |'|         |    |        _____         |")
@@ -656,7 +716,7 @@ if response.lower() == "yes":
     input()
     print("After any trades have been finished and all the traded beans have been planted, you will be dealt three cards to end your turn.")
     input()
-    print("The game ends when the deck has run out for the third time")
+    print("The game ends when the deck runs out for the third time")
     print("You can also end the game early by typing \"/endGame\"")
     input()
     print("At the end of the game, the player with the most coins wins")
@@ -740,9 +800,9 @@ else:
     if len(str(minutes)) == 1:
         minutes = "0" + str(minutes)
     if numberOfAIPlayers == 1:
-        print("Who most recently ate beans? The AI player ate beans " + numbers[random.randint(1,5)] + " days ago for breakfast at " + str(random.randint(5,8)) + ":" + str(minutes))
+        print("Who most recently ate beans? The AI player ate beans " + numbers[random.randint(1,5)] + " days ago for breakfast at " + str(random.randint(5,9)) + ":" + str(minutes))
     else:
-        print("Who most recently ate beans? The AI players ate beans at the same time " + numbers[random.randint(1, 5)] + " days ago for breakfast at " + str(random.randint(5, 8)) + ":" + str(minutes))
+        print("Who most recently ate beans? The AI players ate beans at the same time " + numbers[random.randint(1, 5)] + " days ago for breakfast at " + str(random.randint(5, 9)) + ":" + str(minutes))
 response = input()
 responseExpected = "name"
 checkForHacks()
@@ -756,14 +816,16 @@ while True:
     if len(playerHands[playerTurn]) > 0:
         print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
             numberOfFieldsInUse) + ")?")
-        response = input()
-        responseExpected = "int"
-        responseMax = numberOfFieldsInUse
-        responseMin = 1
-        checkForHacks()
-        response = int(response)
-        if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
-                                                                              response - 1] == playerHands[playerTurn][0]:
+        if playerTurn <= numberOfPlayers-numberOfAIPlayers:  # If human player, go through these lines of code
+            response = input()
+            responseExpected = "int"
+            responseMax = numberOfFieldsInUse
+            responseMin = 1
+            checkForHacks()
+            response = int(response)
+        else:                                                # If AI player, do this function
+            decideWhereToPlantBean(playerTurn, playerHands[playerTurn][0])
+        if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][response - 1] == playerHands[playerTurn][0]:
             harvestBeans(playerTurn, response - 1)
         quantityOfBeansInFields[playerTurn][response - 1] += 1
         typeOfBeansInFields[playerTurn][response - 1] = playerHands[playerTurn].pop(0)
@@ -771,18 +833,29 @@ while True:
         showHandOfPlayer(playerTurn)
         if len(playerHands[playerTurn]) > 0:
             print("Would you like to plant the next card in your hand?")
-            response = input()
-            responseExpected = "y/n"
-            checkForHacks()
-            if response.lower() == "yes":
-                print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
-                    numberOfFieldsInUse) + ")?")
+            if playerTurn <= numberOfPlayers - numberOfAIPlayers:  # If human player, go through these lines of code
                 response = input()
-                responseExpected = "int"
-                responseMax = numberOfFieldsInUse
-                responseMin = 1
+                responseExpected = "y/n"
                 checkForHacks()
-                response = int(response)
+            elif typeOfBeansInFields[playerTurn][0] == playerHands[0] or typeOfBeansInFields[playerTurn][1] == playerHands[0] or (typeOfBeansInFields[playerTurn][2] == playerHands[0] and numberOfFieldsInUse == 3):
+                response = "yes"
+            else:
+                response = "no"
+                for i in range(numberOfFieldsInUse):
+                    if quantityOfBeansInFields[playerTurn][i] == 0 or (quantityOfBeansInFields[playerTurn][i] >= maxQuantityOfBeans[typeOfBeansInFields[playerTurn][i]]):
+                        response = "yes"
+            if response.lower() == "yes":
+                if playerTurn <= numberOfPlayers - numberOfAIPlayers:
+                    print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
+                        numberOfFieldsInUse) + ")?")
+                    response = input()
+                    responseExpected = "int"
+                    responseMax = numberOfFieldsInUse
+                    responseMin = 1
+                    checkForHacks()
+                    response = int(response)
+                else:
+                    decideWhereToPlantBean(playerTurn, playerHands[0])
                 if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                    response - 1] == playerHands[playerTurn][0]:
                     harvestBeans(playerTurn, response - 1)
