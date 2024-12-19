@@ -1,3 +1,4 @@
+
 import random
 
 
@@ -432,7 +433,7 @@ def decideWhereToPlantBean(player, bean):  # How the AI decides where to plant i
                 response = quantityOfBeansInFields[player].index(0)+1                                                                          # but just for using three fields
     if response == "undecided":
         if numberOfFieldsInUse == 2:
-            if minQuantityOfBeans[typeOfBeansInFields[player][0]] <= quantityOfBeansInFields[player][0] and minQuantityOfBeans[typeOfBeansInFields[player][1]] <= quantityOfBeansInFields[player][1]:         # If the AI will gain coins no matter where it harvests,
+            if minQuantityOfBeans[typeOfBeansInFields[player][0]] <= quantityOfBeansInFields[player][0] and minQuantityOfBeans[typeOfBeansInFields[player][1]] <= quantityOfBeansInFields[player][1]:         # If the AI gains coins no matter where it harvests,
                 if maxQuantityOfBeans[typeOfBeansInFields[player][0]]-quantityOfBeansInFields[player][0] < maxQuantityOfBeans[typeOfBeansInFields[player][1]]-quantityOfBeansInFields[player][1]:             # the AI will harvest the beans that are closest to the max
                     response = 1
                 else:
@@ -631,6 +632,7 @@ tradingCards = [0, 0]
 responseCantBe = ""
 maxQuantityOfBeans = ["These", "words", "don't", "matter,", "but", "the", 3, "numbers", 5, "do", 6, "for", 7, "the", 7, "AI", 8, "players", 9, "", 10]
 minQuantityOfBeans = ["These", "words", "also", "don't", "matter,", "but", 2, "the", 2, "numbers", 2, "do", 2, "for", 3, "the", 3, "AI", 3, "players", 4]
+cardOffers = [[], [], [], [], []]
 # The next line is blank (for empty fields), the line after that is the art for the Garden Bean (6), the line after that is for the Red Bean (8), and so on
 ASCIIArt = [["                      ", "                      ", "                      ", "                      ", "                      ", "                     "], 1, 2, 3, 4, 5, [
     "          / \\-        ", "        / /           ", "       |@|            ", "      / \\v|           ", "      |_              "], 7, [
@@ -792,22 +794,25 @@ for i in range(numberOfPlayers):
         coins[i] = 1000
     else:
         coins[i] = 0
-print(playerColoursANSI[5] + "This question is to determine which player goes first:")
-if numberOfAIPlayers == 0:
-    print("Who most recently ate beans?")
-else:
-    minutes = random.randint(0,59)
-    if len(str(minutes)) == 1:
-        minutes = "0" + str(minutes)
-    if numberOfAIPlayers == 1:
-        print("Who most recently ate beans? The AI player ate beans " + numbers[random.randint(1,5)] + " days ago for breakfast at " + str(random.randint(5,9)) + ":" + str(minutes))
+if numberOfAIPlayers < 5:
+    print(playerColoursANSI[5] + "This question is to determine which player goes first:")
+    if numberOfAIPlayers == 0:
+        print("Who most recently ate beans?")
     else:
-        print("Who most recently ate beans? The AI players ate beans at the same time " + numbers[random.randint(1, 5)] + " days ago for breakfast at " + str(random.randint(5, 9)) + ":" + str(minutes))
-response = input()
-responseExpected = "name"
-checkForHacks()
-startingPlayerName = response
-startingPlayer = playerNames.index(startingPlayerName)
+        minutes = random.randint(0,59)
+        if len(str(minutes)) == 1:
+            minutes = "0" + str(minutes)
+        if numberOfAIPlayers == 1:
+            print("Who most recently ate beans? The AI player ate beans " + numbers[random.randint(1,5)] + " days ago for breakfast at " + str(random.randint(5,9)) + ":" + str(minutes))
+        else:
+            print("Who most recently ate beans? The AI players ate beans at the same time " + numbers[random.randint(1, 5)] + " days ago for breakfast at " + str(random.randint(5, 9)) + ":" + str(minutes))
+    response = input()
+    responseExpected = "name"
+    checkForHacks()
+    startingPlayerName = response
+    startingPlayer = playerNames.index(startingPlayerName)
+else:
+    startingPlayer = random.randint(0, 4)
 playerTurn = startingPlayer
 while True:
     print(playerBoldedColoursANSI[playerTurn] + "It is now " + playerNames[playerTurn] + "'s turn")
@@ -838,16 +843,16 @@ while True:
                 responseExpected = "y/n"
                 checkForHacks()
             elif typeOfBeansInFields[playerTurn][0] == playerHands[0] or typeOfBeansInFields[playerTurn][1] == playerHands[0] or (typeOfBeansInFields[playerTurn][2] == playerHands[0] and numberOfFieldsInUse == 3):
-                response = "yes"
+                response = "Yes"
             else:
-                response = "no"
+                response = "No"
                 for i in range(numberOfFieldsInUse):
                     if quantityOfBeansInFields[playerTurn][i] == 0 or (quantityOfBeansInFields[playerTurn][i] >= maxQuantityOfBeans[typeOfBeansInFields[playerTurn][i]]):
-                        response = "yes"
+                        response = "Yes"
             if response.lower() == "yes":
+                print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
+                    numberOfFieldsInUse) + ")?")
                 if playerTurn <= numberOfPlayers - numberOfAIPlayers:
-                    print("Where would you like to plant the first card in your hand (enter a number between 1 and " + str(
-                        numberOfFieldsInUse) + ")?")
                     response = input()
                     responseExpected = "int"
                     responseMax = numberOfFieldsInUse
@@ -865,7 +870,6 @@ while True:
             print("You don't have any beans left in your hand, so you don't have the option of planting a second bean")
     else:
         print("You don't have any beans left in your hand, so you can't plant any beans at this time")
-
     print(playerColoursANSI[5] + "Here are the top two cards from the deck. " + playerNames[
         playerTurn] + " must decide whether to keep these cards or trade them.")
     numberOfFieldsInUse = 2
@@ -900,19 +904,72 @@ while True:
         print("If " + playerNames[playerTurn] + " would like this card (or no one else wants it), enter no.")
         print("Otherwise, the non-active players should give offers to " + playerNames[
             playerTurn] + " and they should enter yes")
-        response = input()
-        responseExpected = "y/n"
-        checkForHacks()
+        if playerTurn <= numberOfPlayers - numberOfAIPlayers:
+            response = input()
+            responseExpected = "y/n"
+            checkForHacks()
+        else:
+            if tradingCards[i] in typeOfBeansInFields[playerTurn] or (quantityOfBeansInFields[playerTurn][0] == 0 or quantityOfBeansInFields[playerTurn][1] == 0 or (
+                    quantityOfBeansInFields[playerTurn][2] and numberOfFieldsInUse == 3) or quantityOfBeansInFields[playerTurn][0] >= maxQuantityOfBeans[typeOfBeansInFields[playerTurn][0]] or
+                    quantityOfBeansInFields[playerTurn][1] >= maxQuantityOfBeans[typeOfBeansInFields[playerTurn][1]] or (
+                    quantityOfBeansInFields[playerTurn][2] >= maxQuantityOfBeans[typeOfBeansInFields[playerTurn][2]] and numberOfFieldsInUse == 3)) and playerHands[playerTurn][0] == tradingCards[i]:
+                response = "No"
+            else:
+                for j in range(numberOfPlayers):
+                    if not j == playerTurn:
+                        print(playerNames[playerTurn] + " would like to trade. Would " + playerNames[
+                            j] + " like to trade for the " + cardNames[tradingCards[i]])
+                        if playerTurn <= numberOfPlayers - numberOfAIPlayers:
+                            response = input()
+                            responseExpected = "y/n"
+                            checkForHacks()
+                            if response.lower() == "yes":
+                                print("How many cards are you offering to trade with?")
+                                showHandOfPlayer(j)
+                                response = input()
+                                responseExpected = "int"
+                                responseMax = len(playerHands[j])
+                                responseMin = 0
+                                checkForHacks()
+                                response = int(response)
+                                for k in range(response):
+                                    if response != 1:
+                                        if str(k)[-1] == "0":
+                                            print(playerColoursANSI[5] + "Enter the placement of the " + str(k + 1) + "st card you want to trade with. Enter a number between 1 and " + str(len(playerHands[tradingPlayer])))
+                                        elif str(k)[-1] == "1":
+                                            print(playerColoursANSI[5] + "Enter the placement of the " + str(k + 1) + "nd card you want to trade with. Enter a number between 1 and " + str(len(playerHands[tradingPlayer])))
+                                        elif str(k)[-1] == "2":
+                                            print(playerColoursANSI[5] + "Enter the placement of the " + str(k + 1) + "rd card you want to trade with. Enter a number between 1 and " + str(len(playerHands[tradingPlayer])))
+                                        else:
+                                            print(playerColoursANSI[5] + "Enter the placement of the " + str(k + 1) + "th card you want to trade with. Enter a number between 1 and " + str(len(playerHands[tradingPlayer])))
+                                    else:
+                                        print(playerColoursANSI[
+                                                  5] + "Enter the placement of the card you agreed to trade with. Enter a "
+                                                       "number between 1 and " + str(
+                                            len(playerHands[tradingPlayer])) + ".")
+                                    response = input()
+                                    responseExpected = "int"
+                                    responseMax = len(playerHands[tradingPlayer])
+                                    responseMin = 1
+                                    checkForHacks()
+                                    response = int(response)
+                                    cardOffers[j].append(playerHands[response])
+                        else:
+                               # Here is where the AIs that aren't the active player give offers for the trading cards
+            print(AIResponseColoursANSI[playerTurn] + str(response))
         if response.lower() == "no":
             print("Where would " + playerNames[playerTurn] + " like to plant this " + cardNames[tradingCards[i]] + " (enter a number between 1 and " +
                   str(numberOfFieldsInUse) + ")?")
             showFieldsOfPlayer(playerTurn)
-            response = input()
-            responseExpected = "int"
-            responseMax = numberOfFieldsInUse
-            responseMin = 1
-            checkForHacks()
-            response = int(response)
+            if playerTurn <= numberOfPlayers - numberOfAIPlayers:
+                response = input()
+                responseExpected = "int"
+                responseMax = numberOfFieldsInUse
+                responseMin = 1
+                checkForHacks()
+                response = int(response)
+            else:
+                decideWhereToPlantBean(playerTurn, tradingCards[i])
             if not quantityOfBeansInFields[playerTurn][response - 1] == 0 and not typeOfBeansInFields[playerTurn][
                                                                                       response - 1] == tradingCards[i]:
                 harvestBeans(playerTurn, response - 1)
