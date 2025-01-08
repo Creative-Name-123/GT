@@ -89,114 +89,114 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
                                           "______________________ ")
         print("/                      \\    /                      \\    /                      \\")
         print("|          1.          |    |          2.          |    |          3.          |")
-    for k in range(numberOfFieldsInUse):
-        if len(str((typeOfBeansInFields[player])[k])) == 1:
-            field[k] = "|          0" + str(typeOfBeansInFields[player][k]) + "          |"
+    for l in range(numberOfFieldsInUse):
+        if len(str((typeOfBeansInFields[player])[l])) == 1:
+            field[l] = "|          0" + str(typeOfBeansInFields[player][l]) + "          |"
         else:
-            field[k] = "|          " + str(typeOfBeansInFields[player][k]) + "          |"
+            field[l] = "|          " + str(typeOfBeansInFields[player][l]) + "          |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
         print("|                      |    |                      |")
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
         print("|                      |    |                      |    |                      |")
-    for k in range(5):  # These next lines print the text art on the cards
-        for l in range(numberOfFieldsInUse):
-            field[l] = "|" + ASCIIArt[typeOfBeansInFields[player][l]][k] + "|"
+    for l in range(5):  # These next lines print the text art on the cards
+        for m in range(numberOfFieldsInUse):
+            field[m] = "|" + ASCIIArt[typeOfBeansInFields[player][m]][l] + "|"
         if numberOfFieldsInUse == 2:
             print(str(field[0]) + "    " + str(field[1]))
         else:
             print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
-        if len(str(quantityOfBeansInFields[player][k])) == 1:
-            quantity = "0" + str(quantityOfBeansInFields[player][k])
+    for l in range(numberOfFieldsInUse):
+        if len(str(quantityOfBeansInFields[player][l])) == 1:
+            quantity = "0" + str(quantityOfBeansInFields[player][l])
         else:
-            quantity = str(quantityOfBeansInFields[player][k])
-        if typeOfBeansInFields[player][k] == 0:  # These next lines print the type of bean and the quantity of that bean
-            field[k] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|  Garden Bean (" + quantity + "x)   |"
-        elif typeOfBeansInFields[player][k] == 8:
-            field[k] = "|    Red Bean (" + quantity + "x)    |"
-        elif typeOfBeansInFields[player][k] == 10:
-            field[k] = "|Black-Eyed Bean (" + quantity + "x) |"
-        elif typeOfBeansInFields[player][k] == 12:
-            field[k] = "|    Soy Bean (" + quantity + "x)    |"
-        elif typeOfBeansInFields[player][k] == 14:
-            field[k] = "|   Green Bean (" + quantity + "x)   |"
-        elif typeOfBeansInFields[player][k] == 16:
-            field[k] = "|   Stink Bean (" + quantity + "x)   |"
-        elif typeOfBeansInFields[player][k] == 18:
-            field[k] = "|   Chili Bean (" + quantity + "x)   |"
+            quantity = str(quantityOfBeansInFields[player][l])
+        if typeOfBeansInFields[player][l] == 0:  # These next lines print the type of bean and the quantity of that bean
+            field[l] = "|                      |"
+        elif typeOfBeansInFields[player][l] == 6:
+            field[l] = "|  Garden Bean (" + quantity + "x)   |"
+        elif typeOfBeansInFields[player][l] == 8:
+            field[l] = "|    Red Bean (" + quantity + "x)    |"
+        elif typeOfBeansInFields[player][l] == 10:
+            field[l] = "|Black-Eyed Bean (" + quantity + "x) |"
+        elif typeOfBeansInFields[player][l] == 12:
+            field[l] = "|    Soy Bean (" + quantity + "x)    |"
+        elif typeOfBeansInFields[player][l] == 14:
+            field[l] = "|   Green Bean (" + quantity + "x)   |"
+        elif typeOfBeansInFields[player][l] == 16:
+            field[l] = "|   Stink Bean (" + quantity + "x)   |"
+        elif typeOfBeansInFields[player][l] == 18:
+            field[l] = "|   Chili Bean (" + quantity + "x)   |"
         else:
-            field[k] = "|   Blue Bean (" + quantity + "x)    |"
+            field[l] = "|   Blue Bean (" + quantity + "x)    |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):  # The rest of this function prints the bottom of the cards
-        if typeOfBeansInFields[player][k] == 0:
-            field[k] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|                      |"
+    for l in range(numberOfFieldsInUse):  # The rest of this function prints the bottom of the cards
+        if typeOfBeansInFields[player][l] == 0:
+            field[l] = "|                      |"
+        elif typeOfBeansInFields[player][l] == 6:
+            field[l] = "|                      |"
         else:
-            field[k] = "|                  O   |"
+            field[l] = "|                  O   |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
-        if typeOfBeansInFields[player][k] == 0:
-            field[k] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|             O        |"
+    for l in range(numberOfFieldsInUse):
+        if typeOfBeansInFields[player][l] == 0:
+            field[l] = "|                      |"
+        elif typeOfBeansInFields[player][l] == 6:
+            field[l] = "|             O        |"
         else:
-            field[k] = "|             O    O   |"
+            field[l] = "|             O    O   |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
-        if typeOfBeansInFields[player][k] == 0:
-            field[k] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|        O    O        |"
+    for l in range(numberOfFieldsInUse):
+        if typeOfBeansInFields[player][l] == 0:
+            field[l] = "|                      |"
+        elif typeOfBeansInFields[player][l] == 6:
+            field[l] = "|        O    O        |"
         else:
-            field[k] = "|        O    O    O   |"
+            field[l] = "|        O    O    O   |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
-        if typeOfBeansInFields[player][k] == 0:
-            field[k] = "|                      |"
+    for l in range(numberOfFieldsInUse):
+        if typeOfBeansInFields[player][l] == 0:
+            field[l] = "|                      |"
         elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|        O    O        |"
+            field[l] = "|        O    O        |"
         else:
-            field[k] = "|   O    O    O    O   |"
+            field[l] = "|   O    O    O    O   |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
     else:
         print(str(field[0]) + "    " + str(field[1]) + "    " + str(field[2]))
-    for k in range(numberOfFieldsInUse):
-        if typeOfBeansInFields[player][k] == 0:
-            field[k] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
-            field[k] = "|        2    3        |"
-        elif typeOfBeansInFields[player][k] == 8:
-            field[k] = "|   2    3    4    5   |"
-        elif typeOfBeansInFields[player][k] == 10:
-            field[k] = "|   2    4    5    6   |"
-        elif typeOfBeansInFields[player][k] == 12:
-            field[k] = "|   2    4    6    7   |"
-        elif typeOfBeansInFields[player][k] == 14:
-            field[k] = "|   3    5    6    7   |"
-        elif typeOfBeansInFields[player][k] == 16:
-            field[k] = "|   3    5    7    8   |"
-        elif typeOfBeansInFields[player][k] == 18:
-            field[k] = "|   3    6    8    9   |"
-        elif typeOfBeansInFields[player][k] == 20:
-            field[k] = "|   4    6    8   10   |"
+    for l in range(numberOfFieldsInUse):
+        if typeOfBeansInFields[player][l] == 0:
+            field[l] = "|                      |"
+        elif typeOfBeansInFields[player][l] == 6:
+            field[l] = "|        2    3        |"
+        elif typeOfBeansInFields[player][l] == 8:
+            field[l] = "|   2    3    4    5   |"
+        elif typeOfBeansInFields[player][l] == 10:
+            field[l] = "|   2    4    5    6   |"
+        elif typeOfBeansInFields[player][l] == 12:
+            field[l] = "|   2    4    6    7   |"
+        elif typeOfBeansInFields[player][l] == 14:
+            field[l] = "|   3    5    6    7   |"
+        elif typeOfBeansInFields[player][l] == 16:
+            field[l] = "|   3    5    7    8   |"
+        elif typeOfBeansInFields[player][l] == 18:
+            field[l] = "|   3    6    8    9   |"
+        elif typeOfBeansInFields[player][l] == 20:
+            field[l] = "|   4    6    8   10   |"
     if numberOfFieldsInUse == 2:
         print(str(field[0]) + "    " + str(field[1]))
         print("\\______________________/    \\______________________/")
@@ -206,23 +206,23 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
 
 
 def showHandOfPlayer(player):  # Shows what cards player has in their hand
-    for k in range(len(playerHands[player])):
-        if playerHands[player][k] == 6:
-            print(playerColoursANSI[player] + str(k + 1) + ". Garden Bean (6)")
-        elif playerHands[player][k] == 8:
-            print(playerColoursANSI[player] + str(k + 1) + ". Red Bean (8)")
-        elif playerHands[player][k] == 10:
-            print(playerColoursANSI[player] + str(k + 1) + ". Black-Eyed Bean (10)")
-        elif playerHands[player][k] == 12:
-            print(playerColoursANSI[player] + str(k + 1) + ". Soy Bean (12)")
-        elif playerHands[player][k] == 14:
-            print(playerColoursANSI[player] + str(k + 1) + ". Green Bean (14)")
-        elif playerHands[player][k] == 16:
-            print(playerColoursANSI[player] + str(k + 1) + ". Stink Bean (16)")
-        elif playerHands[player][k] == 18:
-            print(playerColoursANSI[player] + str(k + 1) + ". Chili Bean (18)")
-        elif playerHands[player][k] == 20:
-            print(playerColoursANSI[player] + str(k + 1) + ". Blue Bean (20)")
+    for l in range(len(playerHands[player])):
+        if playerHands[player][l] == 6:
+            print(playerColoursANSI[player] + str(l + 1) + ". Garden Bean (6)")
+        elif playerHands[player][l] == 8:
+            print(playerColoursANSI[player] + str(l + 1) + ". Red Bean (8)")
+        elif playerHands[player][l] == 10:
+            print(playerColoursANSI[player] + str(l + 1) + ". Black-Eyed Bean (10)")
+        elif playerHands[player][l] == 12:
+            print(playerColoursANSI[player] + str(l + 1) + ". Soy Bean (12)")
+        elif playerHands[player][l] == 14:
+            print(playerColoursANSI[player] + str(l + 1) + ". Green Bean (14)")
+        elif playerHands[player][l] == 16:
+            print(playerColoursANSI[player] + str(l + 1) + ". Stink Bean (16)")
+        elif playerHands[player][l] == 18:
+            print(playerColoursANSI[player] + str(l + 1) + ". Chili Bean (18)")
+        elif playerHands[player][l] == 20:
+            print(playerColoursANSI[player] + str(l + 1) + ". Blue Bean (20)")
 
 
 def harvestBeans(player, field):  # Harvests all beans in player's field
@@ -425,11 +425,11 @@ def decideWhereToPlantBean(player, bean):  # How the AI decides where to plant i
     if bean in typeOfBeansInFields[player]:  # If the AI has a field that already has the same kind of bean,
         response = typeOfBeansInFields[player].index(bean)  # then plant the bean there
     else:
-        for k in range(numberOfFieldsInUse):
-            if quantityOfBeansInFields[player][k] > 0:
-                if maxQuantityOfBeans[typeOfBeansInFields[player][k]] <= quantityOfBeansInFields[playerTurn][
-                    k]:  # If the AI has a field that has the maximum amount of beans,
-                    response = k + 1  # then plant the bean there
+        for l in range(numberOfFieldsInUse):
+            if quantityOfBeansInFields[player][l] > 0:
+                if maxQuantityOfBeans[typeOfBeansInFields[player][l]] <= quantityOfBeansInFields[playerTurn][
+                    l]:               # If the AI has a field that has the maximum amount of beans,
+                    response = l + 1  # then plant the bean there
                     break
     if response == "undecided":
         if numberOfFieldsInUse == 2:
@@ -519,8 +519,7 @@ def checkForHacks():  # Checks if the response is valid
             response = input(response)
 
 
-def checkForHacksBodyCode(
-        command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
+def checkForHacksBodyCode(command):  # Checks if the response is a command (like "/checkStats") and then asks the user for another input
     global response
     global forcedEnd
     if command == "/help":
@@ -551,20 +550,18 @@ def endTheGame():
     else:
         print("The deck has run out for the third and final time. The game is now over.")
     print("All beans in all players' fields are now being harvested")
-    for k in range(numberOfPlayers):
-        for l in range(numberOfFieldsInUse):
-            harvestBeans(k, l)
+    for l in range(numberOfPlayers):
+        for m in range(numberOfFieldsInUse):
+            harvestBeans(l, m)
     actualCoins = coins
     if "Evan" in playerNames:  # Nothing to see here
         actualCoins[playerNames.index("Evan")] -= 1000
     coinsInOrder = []
     positionsInReverseOrder = []
-    for k in range(numberOfPlayers):  # Figures out what position each of the players are in (based on their coins)
+    for l in range(numberOfPlayers):  # Figures out what position each of the players are in (based on their coins)
         coinsInOrder.append(min(coins))  # Takes the lowest value and puts it into this list
-        positionsInReverseOrder.append(
-            int(coins.index(min(coins))))  # Takes the player that had the lowest # of coins and puts it into this list
-        coins[coins.index(
-            min(coins))] += 9999999999999999999999  # Increases the lowest value of coins so that in the next loop, the program can find the 2nd lowest value (and 3rd and so on)
+        positionsInReverseOrder.append(int(coins.index(min(coins))))  # Takes the player that had the lowest # of coins and puts it into this list
+        coins[coins.index(min(coins))] += 9999999999999999999999  # Increases the lowest value of coins so that in the next loop, the program finds the 2nd lowest value (and 3rd and so on)
     print("Press enter to go through the results")
     input()
     if numberOfPlayers >= 5:
@@ -572,61 +569,54 @@ def endTheGame():
         input()
         if coinsInOrder[0] == 1:
             print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[
-                positionsInReverseOrder[0]] + " with one sad small coin")
-        elif coinsInOrder[0] == 0:
-            print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[
-                positionsInReverseOrder[0]] + " with exactly zero coins")
+                positionsInReverseOrder[0]] + " with 1 coin")
         else:
             print(playerColoursANSI[positionsInReverseOrder[0]] + "is " + playerNames[
-                positionsInReverseOrder[0]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+                positionsInReverseOrder[0]] + " with " + str(coinsInOrder[0]) + " coins")
         input()
     if numberOfPlayers >= 4:
         print(playerColoursANSI[5] + "In fourth place...")
         input()
         if coinsInOrder[numberOfPlayers - 4] == 1:
             print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 4]] + "is " + playerNames[
-                positionsInReverseOrder[numberOfPlayers - 4]] + " with one sad small coin")
-        elif coinsInOrder[numberOfPlayers - 4] == 0:
-            print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 4]] + "is " + playerNames[
-                positionsInReverseOrder[numberOfPlayers - 4]] + " with exactly zero coins")
+                positionsInReverseOrder[numberOfPlayers - 4]] + " with 1 coin")
         else:
             print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 4]] + "is " + playerNames[
-                positionsInReverseOrder[numberOfPlayers - 4]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+                positionsInReverseOrder[numberOfPlayers - 4]] + " with " + str(coinsInOrder[0]) + " coins")
         input()
     print(playerColoursANSI[5] + "In third place...")
     input()
     if coinsInOrder[numberOfPlayers - 3] == 1:
         print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 3]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 3]] + " with one sad small coin")
-    elif coinsInOrder[numberOfPlayers - 3] == 0:
-        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 3]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 3]] + " with exactly zero coins")
+            positionsInReverseOrder[numberOfPlayers - 3]] + " with 1 coin")
     else:
         print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 3]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 3]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+            positionsInReverseOrder[numberOfPlayers - 3]] + " with " + str(coinsInOrder[0]) + " coins")
     input()
     print(playerColoursANSI[5] + "In second place...")
     input()
     if coinsInOrder[numberOfPlayers - 2] == 1:
         print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 2]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 2]] + " with one sad small coin")
-    elif coinsInOrder[numberOfPlayers - 2] == 0:
-        print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 2]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 2]] + " with exactly zero coins")
+            positionsInReverseOrder[numberOfPlayers - 2]] + " with 1 coin")
     else:
         print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 2]] + "is " + playerNames[
-            positionsInReverseOrder[numberOfPlayers - 2]] + " with a total of " + str(coinsInOrder[0]) + "coins!")
+            positionsInReverseOrder[numberOfPlayers - 2]] + " with " + str(coinsInOrder[0]) + " coins")
     input()
     print(playerColoursANSI[positionsInReverseOrder[numberOfPlayers - 1]] + "That means that " + playerNames[
         positionsInReverseOrder[numberOfPlayers - 1]] + " won!")
-    print(playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " won with a total of " + str(
-        coinsInOrder[numberOfPlayers - 1]) + " coins!")
-    if "Evan" in playerNames:  # Nothing to see here
+    if coinsInOrder[numberOfPlayers - 1] == 1:
+        print(playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " won with one" + str(
+            coinsInOrder[numberOfPlayers - 1]) + " coin!")
+    else:
+        print(playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " won with " + str(
+            coinsInOrder[numberOfPlayers - 1]) + " coins!")
+    
+    if "Evan" in playerNames and 1 == 0:  # Nothing to see here. It doesn't work anyways for some reason, so I've stopped it from running with the "1 == 0"
         input()
         print(playerColoursANSI[5] + "I'm kidding :)")
         coinsInOrder = []
         positionsInReverseOrder = []
-        for k in range(numberOfPlayers):
+        for l in range(numberOfPlayers):
             coinsInOrder.append(min(actualCoins))
             positionsInReverseOrder.append(int(actualCoins.index(min(actualCoins))))
             actualCoins[actualCoins.index(min(actualCoins))] += 9999999999999999999999
@@ -823,8 +813,8 @@ while not breaker:
         response = input().lower()
 numberOfPlayers = int(response)
 if numberOfPlayers < 5:
-    print("How many AI players are there? There must be between " + str(3 - int(response)) + " and " + str(
-        5 - int(response)) + " players.")
+    print("How many AI players are there? There must be between " + str(max(0, (3 - int(response)))) + " and " + str(
+        5 - int(response)) + " players. Note: the code for the AI players is not finished yet.")
     response = input().lower()
     breaker = False
     while not breaker:
@@ -834,7 +824,7 @@ if numberOfPlayers < 5:
             if response in numbers:
                 response = numbers.index(response)
             if str(response).isdigit():
-                if 3 - numberOfPlayers <= int(response) <= 5 - numberOfPlayers:
+                if max(0, (3 - numberOfPlayers <= int(response))) <= 5 - numberOfPlayers:
                     breaker = True
                 else:
                     response = input().lower()
