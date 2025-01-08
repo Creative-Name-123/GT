@@ -170,7 +170,7 @@ def showFieldsOfPlayer(player):  # This function shows the fields of player (the
     for l in range(numberOfFieldsInUse):
         if typeOfBeansInFields[player][l] == 0:
             field[l] = "|                      |"
-        elif typeOfBeansInFields[player][k] == 6:
+        elif typeOfBeansInFields[player][l] == 6:
             field[l] = "|        O    O        |"
         else:
             field[l] = "|   O    O    O    O   |"
