@@ -610,7 +610,7 @@ def endTheGame():
     else:
         print(playerNames[positionsInReverseOrder[numberOfPlayers - 1]] + " won with " + str(
             coinsInOrder[numberOfPlayers - 1]) + " coins!")
-    
+
     if "Evan" in playerNames and 1 == 0:  # Nothing to see here. It doesn't work anyways for some reason, so I've stopped it from running with the "1 == 0"
         input()
         print(playerColoursANSI[5] + "I'm kidding :)")
@@ -768,13 +768,13 @@ if response.lower() == "yes":
         "After that, the top two cards from the draw pile will be revealed. You must decide if you want to keep these cards or trade them with another player")
     input()
     print(
-        "At this time, bartering and discussion between the players is encouraged. Two players come to agreement to the terms of a trade before the active player inputs that they will trade")
+        "At this time, discussion between the players is encouraged. Two players come to agreement to the terms of a trade before the active player inputs that they will trade")
     print("If you don't want the cards, but no one else is willing to trade, you must deal with it and take the cards")
     input()
     print(
         "At this time, only the active player is allowed to trade with the other players-- the non-active players cannot trade with each other")
     print(
-        "When trading, you are allowed to trade with as many cards as you have in your hand (you can also trade with zero cards)")
+        "When trading, you are allowed to trade with as many cards as you have in your hand (you can also trade with zero cards if the active player agrees that you can)")
     input()
     print(
         "After any trades have been finished and all the traded beans have been planted, you will be dealt three cards to end your turn.")
